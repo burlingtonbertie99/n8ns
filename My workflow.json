@@ -1,0 +1,938 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "ticket",
+        "operation": "getAll",
+        "additionalFields": {
+          "properties": [
+            "createdate",
+            "hs_all_conversation_mentions",
+            "hs_pipeline_stage",
+            "subject",
+            "hs_created_by_user_id",
+            "hs_all_associated_contact_emails"
+          ],
+          "propertiesWithHistory": ""
+        }
+      },
+      "id": "9ce3391d-d7eb-4d86-9787-706b6818b20d",
+      "name": "Get many tickets",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        -144,
+        -272
+      ],
+      "typeVersion": 2.1,
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "6ff5d9e3-0148-4734-8229-bf9e2a833bc5",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        1328,
+        16
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "route"
+            },
+            {
+              "name": "userId"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        }
+      },
+      "id": "0c42b01b-80ea-47ec-9728-89f5ab33ae93",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -592,
+        176
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "name": "Sentinel",
+        "description": "Detects churn risk, customer intent, and emotional tone. ",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{$workflow.id }}"
+        },
+        "workflowInputs": {
+          "value": {
+            "text": "={{ $('Set the variables').item.json.message }}",
+            "route": "Sentinel"
+          },
+          "schema": [
+            {
+              "id": "route",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "route",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "userId",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "userId",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "text",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "text",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "route"
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "88ea281e-dfb2-4da2-b661-23a1f6f858cf",
+      "name": "Sentinel",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        432,
+        -48
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "name": "Profiler",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{$workflow.id }}"
+        },
+        "workflowInputs": {
+          "value": {
+            "route": "Profiler",
+            "userId": "={{ $('Search contacts').item.json.id }}"
+          },
+          "schema": [
+            {
+              "id": "route",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "route",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "userId",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "userId",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "route"
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "id": "8d3fa09f-000d-44b8-9cf2-80d691846c93",
+      "name": "Profiler",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        560,
+        -48
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Overview  \nYou are a Profiler, an AI agent responsible for retrieving and analyzing a user's interactions from a CRM\n\n## Context  \n- Triggered by every incoming message.  \n- Retrieve any past interaction using the from_crm tool\n- Return the list of the past interactions\n\n## Instructions  \n1. get all interactions with the from_crm tool\n2. Return it to the agent\n---",
+        "options": {}
+      },
+      "id": "a8db90cf-f7ad-49ae-a456-a1b11cc554bc",
+      "name": "Profiler_agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        -144,
+        320
+      ],
+      "typeVersion": 1.8
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Overview  \nYou are Sentinel, an AI agent responsible for detecting risks and opportunities in customer communication. Your role is to analyze every inbound message for emotional tone, churn risk, and purchase intent. If any alert is triggered, you must immediately notify the customer via Messenger.\n\n## Context  \n- Triggered by every incoming message.  \n- Operates in real time and takes immediate action when any risk or intent signal is detected.  \n- Your objective is to preempt churn, detect intent to buy, and ensure the emotional tone is addressed quickly.  \n  ",
+        "options": {}
+      },
+      "id": "769a29f5-b404-4b9e-96c5-dd8a08b8ae82",
+      "name": "Sentinel_agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        -144,
+        16
+      ],
+      "typeVersion": 1.8
+    },
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "operation": "search",
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "email|string",
+                    "value": "={{ $json.properties.hs_all_associated_contact_emails.value }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "59c5cffa-7038-45ff-bcf2-06aa85a8edb7",
+      "name": "Search contacts",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        16,
+        -272
+      ],
+      "typeVersion": 2.1,
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"risk\": \"high\",\n\t\"text\": \"this is a text\",\n}"
+      },
+      "id": "545233fe-3f66-4bfe-a048-9e406ba9f3ea",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        688,
+        -48
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Overview  \nYou are an AI orchestrator for a Customer Success (CS) system. Your role is to monitor incoming chat messages across any customer-facing channel and coordinate a real-time, automated response by leveraging various internal tools. Your ultimate goal is to reduce churn, boost engagement, automate support and marketing tasks, and connect internal teams with valuable insights.\nThe current date and time is {{ $now }}\n\n## Context  \n- Triggered by any new inbound message like:\n{{ $json.message }}\n- The system should operate autonomously without requiring human intervention.  \n- The orchestrator must adapt to each customer's context, sentiment, and intent.  \n\n## Instructions \n{{ $json.agent}}\n\n## Tools    \n- **Profiler**: Gathers real-time customer insights from CRM, tickets, and behavior. \n- **Sentinel**: Detects churn risk, customer intent, and emotional tone.  \n- **Classifier**: Chooses the right classification for the output message. In order to send it to the right person. \n\n## Examples  \n- Input: \"I'm really frustrated that my order is late.\"  \n- Output:  \n  1. **Sentinel** flags high frustration and churn risk. Sets \n  2. **Profiler** shows this is a repeat buyer with past complaints.  \n  3. **Classifier** fulfillment\n\n- Input: \"Why do I keep getting logged out of my account? This is so annoying!\"  \n- Output:  \n  1. **Sentinel** flags high frustration and possible churn risk.  \n  2. **Profiler** identifies frequent login issues over the past week and device/browser inconsistencies.  \n  3. **Classifier** technical\n\n- Input: \"I love the new dashboard update. Really smooth experience!\"  \n- Output:  \n  1. **Sentinel** detects positive sentiment and customer satisfaction.  \n  2. **Profiler** confirms the user is a long-time customer with high engagement.  \n  3. **Classifier** commercial\n\n## SOP (Standard Operating Procedure)  \n1. Detect inbound message across any channel.  \n2. Run sentiment, intent, and tone detection via **Sentinel**.  \n3. Enrich customer profile using **Profiler**.  \n4. Calssify the message using **Classifier**\n7. Monitor engagement outcome and update customer status.  \n\n## Final Notes  \n- Always prioritize empathetic and context-aware responses.  \n- Ensure internal teams only receive insights when relevant and actionable.  \n- Responses must be personalized, timely, and aligned with customer history.  \n- Operate entirely autonomously, but log all actions for transparency and review.  \n---\n\nIf one of the tool doesn't work, stop immediately",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "id": "14662621-a2d7-4e46-a2f3-05c4446159e4",
+      "name": "Orchestrator",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        496,
+        -272
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bdc0fff6-b6fd-49e5-b308-040a7cfe3feb",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $('Get many tickets').item.json.properties.subject.value }}\n{{ $('Get many tickets').item.json.properties.content.value}}"
+            },
+            {
+              "id": "a5341fdc-4936-42cd-8aff-b50e32bac86a",
+              "name": "agents",
+              "type": "string",
+              "value": "1. When a new message arrives, analyze it for tone, intent, and urgency using **Sentinel**.  \n2. Query **Profiler** to fetch a full understanding of the customer's status, behavior, and history.  \n3. Use **Content Manager** to retrieve or personalize the appropriate content or message snippet.  \n4. If response suggestions are needed, activate **Guide** to auto-generate a suitable reply.  \n5. Send the response automatically via **Messenger**, choosing the right channel and timing.  \n6. If insights from the message or customer state can support other teams (e.g., product or sales), use **Facilitator** to share those insights internally.  \n7. Continuously update the customer profile and behavior signals in real time.  "
+            },
+            {
+              "id": "cb6bd968-90ae-4692-bdf8-963f6b739884",
+              "name": "agent",
+              "type": "string",
+              "value": "1. When a new message arrives, analyze it for tone, intent, and urgency using **Sentinel**.\n2. Query **Profiler** to fetch a full understanding of the customer's status, behavior, and history. \n3. Then run **Classifier** to get the classification of the message abd return it as a variable named \"class\" \n4. Then summarize the output of the Profiler using **Summarizer**\n5. You will return a variable named \"risk\" to true if you estimate that the client is at risk. False otherwise\n6. you will return the output as \"text\""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8da6e7a1-13d7-456c-8607-8d11932e7cc6",
+      "name": "Set the variables",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        208,
+        -272
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "mode": "list",
+          "value": "10001",
+          "cachedResultName": "Testing n9n workflow"
+        },
+        "issueType": {
+          "__rl": true,
+          "mode": "list",
+          "value": "10011",
+          "cachedResultName": "Epic"
+        },
+        "summary": "={{ $json.output.text }}",
+        "additionalFields": {
+          "assignee": {
+            "__rl": true,
+            "mode": "list",
+            "value": "712020:ca8ed082-0f07-48b8-b231-5a3bf70a74d4",
+            "cachedResultName": "Thomas Vie"
+          },
+          "description": "={{ $('Orchestrator').item.json.output.text }}"
+        }
+      },
+      "id": "de47521c-e9ce-419e-873b-c9e418ff8b5a",
+      "name": "Create an issue in Jira",
+      "type": "n8n-nodes-base.jira",
+      "position": [
+        1616,
+        -240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "ae3a40cd-b4ad-47af-bef8-87f7f97df1f4",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.route }}",
+                    "rightValue": "Sentinel"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "sentinel"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "d6b7f19e-dc1d-4968-b661-e333ed0228b4",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.route }}",
+                    "rightValue": "Profiler"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "profiler"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "31c0a85e-e1a0-4217-8cc1-9c011c44189e",
+      "name": "Router",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        -368,
+        176
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "get",
+        "contactId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('When Executed by Another Workflow').item.json.userId }}"
+        },
+        "additionalFields": {
+          "propertiesCollection": {
+            "propertiesValues": {
+              "properties": [
+                "hs_buying_role",
+                "hs_conversations_visitor_email",
+                "num_contacted_notes",
+                "email"
+              ]
+            }
+          }
+        }
+      },
+      "id": "0bf8d865-47d0-466d-b077-1edae9074fce",
+      "name": "from_crm",
+      "type": "n8n-nodes-base.hubspotTool",
+      "position": [
+        -64,
+        544
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $('Orchestrator').item.json.output.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "invoicing",
+              "description": "for problems related to wrong invoice, delay of payment"
+            },
+            {
+              "category": "technical",
+              "description": "for problems related to software not working, for feature request."
+            },
+            {
+              "category": "commercial",
+              "description": "if the message is positive"
+            },
+            {
+              "category": "fulfillment",
+              "description": "for problems related to sending and receiving products, delayed shipments."
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "Please classify the text provided by the user into one of the following categories: {categories}, and use the provided formatting instructions below. Don't explain, and only output the json."
+        }
+      },
+      "id": "f694ff0b-194a-4aac-8f27-d39e628fa2a7",
+      "name": "Cateogory Classifier",
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "position": [
+        1248,
+        -272
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "chunkSize": 200,
+        "chunkOverlap": 20,
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "combineMapPrompt": "=Write a concise title for a ticket of the following:\n{{ $json.output.text }}\n\n\"\"\n\n\nCONCISE SUMMARY:",
+              "prompt": "=Write a concise title for a ticket of the following:\n\n{{ $json.output.text }}\n\n\nCONCISE SUMMARY: "
+            }
+          }
+        }
+      },
+      "id": "0c31c6d8-4300-48cb-ad19-7025adb565f5",
+      "name": "generate ticket title",
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "position": [
+        896,
+        -272
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "content": "## Sub-worflows for agents\nHere eyou can add any agent that you need",
+        "height": 688,
+        "width": 832,
+        "color": 6
+      },
+      "id": "fa67e8cf-153e-4438-98cc-5f1a918ed62e",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -640,
+        -16
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Ticket router\nSet here the repoonsible team for each category output",
+        "height": 288,
+        "width": 656,
+        "color": 5
+      },
+      "id": "bb82f484-1c51-4d03-ad1a-c85f90e9441f",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1184,
+        -368
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Ticket generation\nModify the prompt to suit your needs",
+        "height": 464,
+        "width": 752,
+        "color": 5
+      },
+      "id": "2ddf8511-37e2-474e-b8d7-4353be0c28b0",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        400,
+        -368
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Get tickets from Hubspot\nSet here your CRM retrieving system",
+        "height": 272,
+        "width": 576,
+        "color": 5
+      },
+      "id": "5425f43d-786f-4779-8f80-6f8f1284dcf8",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        -352
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "b1118922-675c-4dc1-9f6f-1526e170ca94",
+      "name": "For testing",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -592,
+        -368
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "6bb93303-0849-45f3-90eb-0c3de4bac292",
+      "name": "Set the running interval",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        -592,
+        -176
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "content": "## Contact me\n### If you need some help with this workflow: Write to me: [thomas@pollup.net](mailto:thomas@pollup.net)\n",
+        "height": 100,
+        "width": 768
+      },
+      "id": "966fee84-af56-45d3-a1a7-bddc1cff95d0",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -608,
+        -496
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "ticket",
+        "operation": "get",
+        "ticketId": {
+          "__rl": true,
+          "value": 1313512622,
+          "mode": "list",
+          "cachedResultName": 1313512622
+        },
+        "additionalFields": {
+          "includeDeleted": false,
+          "properties": [
+            "hs_all_associated_contact_emails",
+            "hs_all_conversation_mentions"
+          ],
+          "propertiesWithHistory": ""
+        }
+      },
+      "id": "aa1d4d0c-9eaf-4ccc-9a7e-af5c601de3f5",
+      "name": "Get Ticket ID",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        -272,
+        -272
+      ],
+      "typeVersion": 2.1,
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "ticket",
+        "operation": "get",
+        "ticketId": {
+          "__rl": true,
+          "value": 1313512622,
+          "mode": "list",
+          "cachedResultName": 1313512622
+        },
+        "additionalFields": {
+          "includeDeleted": "={{ false }}",
+          "properties": "={{ [\"closed_date\",\"createdate\",\"first_agent_reply_date\",\"hs_date_entered_1\",\"hs_date_entered_2\",\"hs_date_entered_3\",\"hs_date_entered_4\",\"hs_date_entered_44364416\",\"hs_date_exited_1\",\"hs_date_exited_2\"] }}",
+          "propertiesWithHistory": ""
+        }
+      },
+      "id": "c873aec5-7ced-4fd5-affd-60a570ea8bc5",
+      "name": "TicketTimings",
+      "type": "n8n-nodes-base.hubspot",
+      "position": [
+        -400,
+        -272
+      ],
+      "typeVersion": 2.1,
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Router": {
+      "main": [
+        [
+          {
+            "node": "Sentinel_agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Profiler_agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Profiler": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentinel": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "from_crm": {
+      "ai_tool": [
+        [
+          {
+            "node": "Profiler_agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "For testing": {
+      "main": [
+        [
+          {
+            "node": "TicketTimings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Orchestrator": {
+      "main": [
+        [
+          {
+            "node": "generate ticket title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search contacts": {
+      "main": [
+        [
+          {
+            "node": "Set the variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many tickets": {
+      "main": [
+        [
+          {
+            "node": "Search contacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Sentinel_agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Profiler_agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "generate ticket title",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Cateogory Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set the variables": {
+      "main": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cateogory Classifier": {
+      "main": [
+        [
+          {
+            "node": "Create an issue in Jira",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an issue in Jira",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an issue in Jira",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an issue in Jira",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate ticket title": {
+      "main": [
+        [
+          {
+            "node": "Cateogory Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set the running interval": {
+      "main": [
+        [
+          {
+            "node": "TicketTimings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Ticket ID": {
+      "main": [
+        [
+          {
+            "node": "Get many tickets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TicketTimings": {
+      "main": [
+        [
+          {
+            "node": "Get Ticket ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "11c040b1-f464-4aa8-9257-b4b685ee1b0d",
+  "meta": {
+    "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
+  },
+  "id": "feqJWRwMTZUB0cRV",
+  "tags": []
+}
