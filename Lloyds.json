@@ -22,7 +22,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",\n    \"content\",\n    \"createdate\",\n    \"hs_pipeline\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -30,8 +30,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -144,
-        48
+        -192,
+        0
       ],
       "id": "d8988363-c30e-4bbe-8ea6-dd8f5ac2f0a4",
       "name": "HTTP Request1",
@@ -50,7 +50,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",\n    \"content\",\n    \"createdate\",\n    \"hs_pipeline\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -58,7 +58,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -144,
+        -208,
         288
       ],
       "id": "e91f4ab3-eb7f-4a2c-b790-a0389881ad60",
@@ -71,7 +71,11 @@
       }
     },
     {
-      "parameters": {},
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
@@ -98,23 +102,7 @@
     },
     {
       "parameters": {
-        "compare": "selectedFields",
-        "fieldsToCompare": "results",
-        "options": {
-          "disableDotNotation": false
-        }
-      },
-      "type": "n8n-nodes-base.removeDuplicates",
-      "typeVersion": 2,
-      "position": [
-        224,
-        144
-      ],
-      "id": "366cf69b-10a2-4ecc-ac2c-1c18d3c3aacb",
-      "name": "Remove Duplicates"
-    },
-    {
-      "parameters": {
+        "fieldToSplitOut": "results",
         "options": {}
       },
       "type": "n8n-nodes-base.splitOut",
@@ -128,17 +116,16 @@
     },
     {
       "parameters": {
-        "jsCode": "//const input1 = $input.first().json.map(item => item.json);\n//const input2 = $input.last().json.map(item => item.json);\n\nconst input1 = $input.first().json.map(item => item.json);\n\n//Union by results\nconst map = new Map();\n[...input1, ...input2].forEach(obj =>{\n\n  map.set(obj.results,obj)\n})\n\n\n\nreturn Array.from(map.values()).map(v => ({json : v}));"
+        "jsCode": "// n8n Function node\n// Merges multiple JSON inputs and deduplicates by \"id\"\n\nlet merged = [];\n\n// Collect all results arrays from inputs\nfor (const item of items) {\n  if (item.json.results && Array.isArray(item.json.results)) {\n    merged.push(...item.json.results);\n  }\n}\n\n// Deduplicate by \"id\"\nconst seen = new Set();\nconst deduped = merged.filter(entry => {\n  if (seen.has(entry.id)) {\n    return false;\n  }\n  seen.add(entry.id);\n  return true;\n});\n\n// Return single combined output\nreturn [\n  {\n    json: {\n      total: deduped.length,\n      results: deduped\n    }\n  }\n];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        288,
-        432
+        224,
+        160
       ],
-      "id": "6736b221-838f-4e8d-b925-9cefdcd606a1",
-      "name": "Code in JavaScript",
-      "disabled": true
+      "id": "a9d028f8-c11c-4091-bf8c-f86a5dfbf3a0",
+      "name": "Code in JavaScript1"
     }
   ],
   "pinData": {},
@@ -185,18 +172,7 @@
       "main": [
         [
           {
-            "node": "Remove Duplicates",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Remove Duplicates": {
-      "main": [
-        [
-          {
-            "node": "Split Out",
+            "node": "Code in JavaScript1",
             "type": "main",
             "index": 0
           }
@@ -213,13 +189,24 @@
           }
         ]
       ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7eeafeb0-82a0-40ae-a2da-8ad9a50f4549",
+  "versionId": "550e22be-07f2-4bc0-8c83-266f228dc855",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "bd7e4bf7d1cfcb300d5188e94e5c914a4b57906e9d5593274ef36edbdad59fc8"
