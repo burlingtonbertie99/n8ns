@@ -1,0 +1,91 @@
+[
+  {
+    "total": 6,
+    "results": [
+      {
+        "id": "27646787168",
+        "properties": {
+          "closed_date": null,
+          "createdate": "2025-08-06T10:40:20.149Z",
+          "hs_lastmodifieddate": "2025-08-07T12:39:12.413Z",
+          "hs_object_id": "27646787168",
+          "hs_pipeline_stage": "2",
+          "subject": "PKCS11 API - Permissible usage of keys / CKMS Settings [SUP27646787168]"
+        },
+        "createdAt": "2025-08-06T10:40:20.149Z",
+        "updatedAt": "2025-08-07T12:39:12.413Z",
+        "archived": false
+      },
+      {
+        "id": "31593171550",
+        "properties": {
+          "closed_date": null,
+          "createdate": "2025-10-10T07:32:44.853Z",
+          "hs_lastmodifieddate": "2025-10-10T16:23:51.313Z",
+          "hs_object_id": "31593171550",
+          "hs_pipeline_stage": "2",
+          "subject": ".NET API v3.15 - compatibility with .NET 8 and 10? [SUP31593171550]"
+        },
+        "createdAt": "2025-10-10T07:32:44.853Z",
+        "updatedAt": "2025-10-10T16:23:51.313Z",
+        "archived": false
+      },
+      {
+        "id": "25462376515",
+        "properties": {
+          "closed_date": "2025-07-09T09:52:06.769Z",
+          "createdate": "2025-06-16T16:29:47.342Z",
+          "hs_lastmodifieddate": "2025-07-09T09:52:10.168Z",
+          "hs_object_id": "25462376515",
+          "hs_pipeline_stage": "4",
+          "subject": "CSG REST API [SUP25462376515]"
+        },
+        "createdAt": "2025-06-16T16:29:47.342Z",
+        "updatedAt": "2025-07-09T09:52:10.168Z",
+        "archived": false
+      },
+      {
+        "id": "25738020245",
+        "properties": {
+          "closed_date": "2025-06-25T14:08:58.369Z",
+          "createdate": "2025-06-25T08:14:28.185Z",
+          "hs_lastmodifieddate": "2025-06-25T14:09:03.467Z",
+          "hs_object_id": "25738020245",
+          "hs_pipeline_stage": "4",
+          "subject": "CSG - Client Password Length [SUP25738020245]"
+        },
+        "createdAt": "2025-06-25T08:14:28.185Z",
+        "updatedAt": "2025-06-25T14:09:03.467Z",
+        "archived": false
+      },
+      {
+        "id": "25763628331",
+        "properties": {
+          "closed_date": "2025-06-30T07:06:24.568Z",
+          "createdate": "2025-06-27T14:42:00.070Z",
+          "hs_lastmodifieddate": "2025-06-30T07:09:02.402Z",
+          "hs_object_id": "25763628331",
+          "hs_pipeline_stage": "4",
+          "subject": "JAVA API Thread model [SUP25763628331]"
+        },
+        "createdAt": "2025-06-27T14:42:00.070Z",
+        "updatedAt": "2025-06-30T07:09:02.402Z",
+        "archived": false
+      },
+      {
+        "id": "29864087813",
+        "properties": {
+          "closed_date": "2025-10-02T12:42:03.235Z",
+          "createdate": "2025-09-19T12:31:05.976Z",
+          "hs_lastmodifieddate": "2025-10-02T12:42:07.951Z",
+          "hs_object_id": "29864087813",
+          "hs_pipeline_stage": "4",
+          "subject": "CKMS Audit logs [SUP29864087813]"
+        },
+        "createdAt": "2025-09-19T12:31:05.976Z",
+        "updatedAt": "2025-10-02T12:42:07.951Z",
+        "archived": false
+      }
+    ]
+  }
+]
