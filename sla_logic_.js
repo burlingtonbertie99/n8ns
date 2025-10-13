@@ -1,3 +1,7 @@
+
+const fs = require('fs');
+
+
 // n8n Function node — SLA calculation using $input (avoids 'items' linter errors)
 // Paste into a Function node. Returns one output item per ticket: { json: { ... } }
 
@@ -41,13 +45,64 @@ function getProp(o, key) {
 
 
 // Use n8n $input helper to get incoming items (linter-friendly)
-const incoming = $input.all(); // array of { json:, binary: }
+//const incoming = $input.all(); // array of { json:, binary: }
+
+//var incoming=[];
+
+var incoming=[];
+try {
+    const data = fs.readFileSync('tickets_input.json', 'utf8')
+
+    const incoming___ = JSON.parse(data);
+    //console.log(data)
+    incoming = incoming___;
+
+} catch (err) {
+    console.error(err)
+}
+
+
+
+//fs.readFile('tickets_input.json', function(err, data) {
+
+//fs.readFileSync('tickets_input.json', function(err, data) {
+
+  //  if (err)
+        //throw err;
+    //    console.log("Error while reading data!");
+
+    //const books = JSON.parse(data);
+//	console.log("Input data = ");
+ //   console.log(books);
+	//incoming = books["results"];
+	//incoming = books[0].results;
+
+    //incoming = books[0];
+//	console.log("Data to process = ");
+//	console.log(incoming);
+//});
+
+
 
 // === normalize input (support multiple possible paste shapes) ===
 let rawTickets = [];
-if (incoming.length === 1) {
-  const firstJson = incoming[0].json;
-  if (Array.isArray(firstJson) && firstJson.length > 0 && Array.isArray(firstJson[0].results)) {
+
+
+
+if (incoming.length > 0) {
+
+	//console.log("Processing tickets");
+
+   // const firstJson = incoming[0].json;
+    const firstJson = incoming[0].results;
+
+
+
+    // const firstJson = incoming.results[0].json;
+
+// TODO can probably simplify this!!!!
+
+    if (Array.isArray(firstJson) && firstJson.length > 0 && Array.isArray(firstJson[0].results)) {
     // shape: [ { total, results: [...] } ]
     rawTickets = firstJson[0].results;
   } else if (firstJson && Array.isArray(firstJson.results)) {
@@ -63,6 +118,14 @@ if (incoming.length === 1) {
 } else {
   rawTickets = incoming.map(i => i.json);
 }
+
+
+
+//console.log("rawTickets = ");
+//console.log(rawTickets);
+
+
+
 
 // === process tickets ===
 const output = rawTickets.map(ticket => {
@@ -111,12 +174,12 @@ const output = rawTickets.map(ticket => {
     if (lastMod) {
       timeToFirstHours = msToHours(lastModgetTime - createdAtgetTime);
 
-  console.log('DEBUG 000');
-      console.log(lastMod);
-  console.log(msToHours(lastModgetTime));
-  console.log('DEBUG 001');
-      console.log(createdAt);
-  console.log(msToHours(createdAtgetTime));
+ // console.log('DEBUG 000');
+   //   console.log(lastMod);
+  //console.log(msToHours(lastModgetTime));
+  //console.log('DEBUG 001');
+    //  console.log(createdAt);
+  //console.log(msToHours(createdAtgetTime));
  // console.log('DEBUG 002');
 
 
@@ -180,4 +243,9 @@ const output = rawTickets.map(ticket => {
  // json:"results":{});
 //});
   
-return  { "results": output } ;
+//return  { "results": output } ;
+//
+//
+//console.log("Output = ");
+console.log(output);
+
