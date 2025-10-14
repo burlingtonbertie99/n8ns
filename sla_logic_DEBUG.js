@@ -12,37 +12,6 @@ const DEFAULT_SLA_RESOLUTION_HOURS = 1000;   // change if needed
 // If true, and hs_time_to_first_agent_reply is missing, use hs_lastmodifieddate/updatedAt as a fallback
 //const FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE = true;
 
-// === helpers ===
-function parseTimestamp(v) {
-  if (v === undefined || v === null || v === '') return null;
-  if (typeof v === 'number') {
-    // heuristic: large numbers are ms
-    if (v > 1e11) return new Date(v);
-    return new Date(v * 1000);
-  }
-  if (typeof v === 'string') {
-    if (/^\d+$/.test(v)) return parseTimestamp(Number(v));
-    const d = new Date(v);
-    if (!isNaN(d.getTime())) return d;
-    return null;
-  }
-  return null;
-}
-function msToHours(ms) {
-  return ms == null ? null : ms / (1000 * 60 * 60);
-}
-function round4(n) {
-  return n == null ? null : Number(n.toFixed(4));
-}
-function getProp(o, key) {
-  if (!o) return undefined;
-  if (o.properties && o.properties[key] !== undefined) return o.properties[key];
-  if (o[key] !== undefined) return o[key];
-  return undefined;
-}
-
-// END === helpers ===
-
 
 // Use n8n $input helper to get incoming items (linter-friendly)
 //const incoming = $input.all(); // array of { json:, binary: }
@@ -87,16 +56,12 @@ try {
 // === normalize input (support multiple possible paste shapes) ===
 let rawTickets = [];
 
-
-
 if (incoming.length > 0) {
 
 	//console.log("Processing tickets");
 
    // const firstJson = incoming[0].json;
     const firstJson = incoming[0].results;
-
-
 
     // const firstJson = incoming.results[0].json;
 
@@ -202,6 +167,13 @@ const output = rawTickets.map(ticket => {
   const firstResponseMet = (timeToFirstHours != null) ? (timeToFirstHours <= SLA_FIRST_HOURS) : false;
   const resolutionMet = (timeToCloseHours != null) ? (timeToCloseHours <= SLA_RES_HOURS) : true;
 
+
+
+
+
+
+
+
   // reasons
   const breachReasons = [];
   if (timeToFirstHours == null) breachReasons.push('missing_first_response_time');
@@ -217,22 +189,16 @@ const output = rawTickets.map(ticket => {
 
   return {
     json: {
-      ticketId,
       subject,
       createdAt: createdAt ? createdAt.toISOString() : null,
       closedAt: closedAt ? closedAt.toISOString() : null,
-      timeToFirstHours: round4(timeToFirstHours),
+
       timeToFirstReadable: timeToFirstHours == null ? null : `${Math.floor(timeToFirstHours)}h ${Math.round((timeToFirstHours % 1) * 60)}m`,
-      timeToCloseHours: round4(timeToCloseHours),
+
       timeToCloseReadable: timeToCloseHours == null ? null : `${Math.floor(timeToCloseHours)}h ${Math.round((timeToCloseHours % 1) * 60)}m`,
       firstResponseMet,
-      resolutionMet,
-      SLA_firstHours: SLA_FIRST_HOURS,
-      SLA_resolutionHours: SLA_RES_HOURS,
-      breachReasons,
-      slaStatus,
-      raw: ticket // include raw ticket for debugging if desired
-     
+      resolutionMet
+
     }
   };
 });
@@ -248,4 +214,38 @@ const output = rawTickets.map(ticket => {
 //
 //console.log("Output = ");
 console.log(output);
+
+
+
+// === helpers ===
+function parseTimestamp(v) {
+    if (v === undefined || v === null || v === '') return null;
+    if (typeof v === 'number') {
+        // heuristic: large numbers are ms
+        if (v > 1e11) return new Date(v);
+        return new Date(v * 1000);
+    }
+    if (typeof v === 'string') {
+        if (/^\d+$/.test(v)) return parseTimestamp(Number(v));
+        const d = new Date(v);
+        if (!isNaN(d.getTime())) return d;
+        return null;
+    }
+    return null;
+}
+function msToHours(ms) {
+    return ms == null ? null : ms / (1000 * 60 * 60);
+}
+function round4(n) {
+    return n == null ? null : Number(n.toFixed(4));
+}
+function getProp(o, key) {
+    if (!o) return undefined;
+    if (o.properties && o.properties[key] !== undefined) return o.properties[key];
+    if (o[key] !== undefined) return o[key];
+    return undefined;
+}
+
+// END === helpers ===
+
 
