@@ -5,13 +5,13 @@
       "parameters": {
         "inputSource": "passthrough"
       },
-      "id": "551f7c67-3dfb-4d02-8b02-159b5277c5b5",
+      "id": "ea40bb67-bc09-4bfc-9c98-ebe7a46f5d91",
       "typeVersion": 1.1,
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -304,
-        272
+        -432,
+        128
       ]
     },
     {
@@ -22,7 +22,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -30,15 +30,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -80,
-        128
+        -208,
+        -16
       ],
-      "id": "7a0afb21-6fcc-4d9e-b09c-cd674fa44a0f",
+      "id": "51c1100d-7860-4846-8132-a8524da070db",
       "name": "HTTP Request1",
       "credentials": {
         "hubspotAppToken": {
-          "id": "2yehenPyLDtzjpO1",
-          "name": "HubSpot App Token account"
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
         }
       }
     },
@@ -50,7 +50,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -58,15 +58,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -80,
-        368
+        -208,
+        224
       ],
-      "id": "b4bd0a7a-eb71-4af4-a9f7-e816aaa74687",
+      "id": "37090cac-d877-4247-be01-5edc382e121c",
       "name": "HTTP Request",
       "credentials": {
         "hubspotAppToken": {
-          "id": "2yehenPyLDtzjpO1",
-          "name": "HubSpot App Token account"
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
         }
       }
     },
@@ -79,24 +79,25 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        144,
-        176
+        16,
+        32
       ],
-      "id": "a4c9d4c3-630f-466e-9a6a-60d22144d1af",
+      "id": "1d7cd716-8e56-4556-b36b-a47721fd62ab",
       "name": "Merge"
     },
     {
       "parameters": {
-        "operation": "xlsx",
-        "options": {}
+        "options": {
+          "delimiter": ","
+        }
       },
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        976,
-        176
+        912,
+        32
       ],
-      "id": "80d5fc59-2fff-4542-b728-a6b3c2309bdc",
+      "id": "78d9ea51-0f4b-4278-955b-a57cbc4699e1",
       "name": "Convert to File"
     },
     {
@@ -107,10 +108,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        816,
-        176
+        688,
+        32
       ],
-      "id": "7dd3fcd2-c5b7-4809-8f80-5187c645c79a",
+      "id": "487db755-e7d4-4fda-bc84-9b227f1e9a3a",
       "name": "Split Out"
     },
     {
@@ -120,38 +121,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        368,
-        176
+        240,
+        32
       ],
-      "id": "95042e8e-ee63-4253-a030-f3a15d06d9f5",
+      "id": "90ef747b-0a44-4191-9672-a91b7e558328",
       "name": "SuperMerge"
     },
     {
       "parameters": {
-        "jsCode": "// n8n Function node — SLA calculation using $input (avoids 'items' linter errors)\n// Paste into a Function node. Returns one output item per ticket: { json: { ... } }\n\n// === CONFIG ===\nconst DEFAULT_SLA_FIRST_RESPONSE_HOURS = 48; // change if needed\nconst DEFAULT_SLA_RESOLUTION_HOURS = 1000;   // change if needed\n\n\n// time_to_first_agent_reply - current definition of the Time to First Agent Reply is defined as time between create time to first reply time\n\n// If true, and hs_time_to_first_agent_reply is missing, use hs_lastmodifieddate/updatedAt as a fallback\nconst FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE = true;\n\n// === helpers ===\nfunction parseTimestamp(v) {\n  if (v === undefined || v === null || v === '') return null;\n  if (typeof v === 'number') {\n    // heuristic: large numbers are ms\n    if (v > 1e11) return new Date(v);\n    return new Date(v * 1000);\n  }\n  if (typeof v === 'string') {\n    if (/^\\d+$/.test(v)) return parseTimestamp(Number(v));\n    const d = new Date(v);\n    if (!isNaN(d.getTime())) return d;\n    return null;\n  }\n  return null;\n}\nfunction msToHours(ms) {\n  return ms == null ? null : ms / (1000 * 60 * 60);\n}\nfunction round4(n) {\n  return n == null ? null : Number(n.toFixed(4));\n}\nfunction getProp(o, key) {\n  if (!o) return undefined;\n  if (o.properties && o.properties[key] !== undefined) return o.properties[key];\n  if (o[key] !== undefined) return o[key];\n  return undefined;\n}\n\n// Use n8n $input helper to get incoming items (linter-friendly)\nconst incoming = $input.all(); // array of { json:, binary: }\n\n// === normalize input (support multiple possible paste shapes) ===\nlet rawTickets = [];\nif (incoming.length === 1) {\n  const firstJson = incoming[0].json;\n  if (Array.isArray(firstJson) && firstJson.length > 0 && Array.isArray(firstJson[0].results)) {\n    // shape: [ { total, results: [...] } ]\n    rawTickets = firstJson[0].results;\n  } else if (firstJson && Array.isArray(firstJson.results)) {\n    // shape: { total, results: [...] }\n    rawTickets = firstJson.results;\n  } else if (Array.isArray(firstJson)) {\n    // shape: [ { id, properties... }, ... ]\n    rawTickets = firstJson;\n  } else {\n    // fallback: treat each incoming item as a ticket (single item per input)\n    rawTickets = incoming.map(i => i.json);\n  }\n} else {\n  rawTickets = incoming.map(i => i.json);\n}\n\n// === process tickets ===\nconst output = rawTickets.map(ticket => {\n  // ids & subject\n  const ticketId = ticket.id ?? ticket.properties?.hs_object_id ?? ticket.properties?.hs_object_id ?? null;\n  const subject = getProp(ticket, 'subject') ?? ticket.title ?? null;\n\n  // created / closed\n  const createdRaw = getProp(ticket, 'createdate') ?? ticket.createdAt ?? ticket.created_at ?? ticket.created;\n  const createdAt = parseTimestamp(createdRaw);\n\n  const closedRaw = getProp(ticket, 'closed_date') ?? ticket.closedAt ?? ticket.closed_at ?? ticket.closed;\n  const closedAt = parseTimestamp(closedRaw);\n\n  // built-in ms fields (HubSpot sometimes gives ms, sometimes numeric-string)\n  \n  \n  const rawFirstMs = getProp(ticket, 'time_to_first_agent_reply') ;\n \n  \n  \n  \n  \n  const rawCloseMs = getProp(ticket, 'time_to_close') ;\n // console.log('DEBUG 000');\n // console.log(rawFirstMs);\n // console.log('DEBUG 001');\n // console.log(Number(rawFirstMs));\n // console.log('DEBUG 002');\n  \n  \n  \n  const firstMs = rawFirstMs ? Number(rawFirstMs) : null;\n  const closeMs = rawCloseMs ? Number(rawCloseMs) : null;\n  //console.log(firstMs);\n // console.log('DEBUG 003');\n  // compute durations (hours)\n  let timeToFirstHours = firstMs ? msToHours(firstMs) : null;\n\n\n\n  \n // console.log(timeToFirstHours);\n // console.log('DEBUG END');\n  let timeToCloseHours = closeMs ? msToHours(closeMs) : null;\n\n  // fallback: compute timeToFirst using last modified / updated if enabled\n  if (!timeToFirstHours && FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE && createdAt) {\n    const lastModRaw = getProp(ticket, 'hs_lastmodifieddate') ?? ticket.updatedAt ?? ticket.updated_at;\n    const lastMod = parseTimestamp(lastModRaw);\n\n    const lastModgetTime = lastMod.getTime();\n\n    const createdAtgetTime = createdAt.getTime();\n    \n    if (lastMod) {\n      timeToFirstHours = msToHours(lastModgetTime - createdAtgetTime);\n\n  //console.log('DEBUG 000');\n     // console.log(lastMod);\n  //console.log(msToHours(lastModgetTime));\n // console.log('DEBUG 001');\n    //  console.log(createdAt);\n//  console.log(msToHours(createdAtgetTime));\n // console.log('DEBUG 002');\n\n\n      \n    }\n  }\n\n    \n\n\n  // fallback: compute timeToClose from createdAt/closedAt when hs_time_to_close is missing\n  if (timeToCloseHours == null && createdAt && closedAt) {\n    timeToCloseHours = msToHours(closedAt.getTime() - createdAt.getTime());\n  }\n\n  // per-ticket SLA override (optional): ticket.sla = { firstResponseHours, resolutionHours }\n\n  \n  //const SLA_FIRST_HOURS = (ticket.sla && ticket.sla.firstResponseHours) ? Number(ticket.sla.firstResponseHours) : DEFAULT_SLA_FIRST_RESPONSE_HOURS;\n  //const SLA_RES_HOURS = (ticket.sla && ticket.sla.resolutionHours) ? Number(ticket.sla.resolutionHours) : DEFAULT_SLA_RESOLUTION_HOURS;\n\n\n   // reasons\n  const breachReasons = [];\n  const warnings = [];\n\n  const professionalServices = [];\n\n\n\n  const firstResponseMet = ((timeToFirstHours != null)) ? ((timeToFirstHours <= DEFAULT_SLA_FIRST_RESPONSE_HOURS)) : false;\n // const resolutionMet = (timeToCloseHours != null) ? (timeToCloseHours <= SLA_RES_HOURS) : true;\n\n \n/*  \n  if (timeToFirstHours == null) {breachReasons.push('missing_first_response_time');}\n  else if (!firstResponseMet) {\n    if(timeToFirstHours!=timeToCloseHours)  \n        breachReasons.push('first_response_breached');\n    else{warnings.push('anomolous');}\n  \n  \n  }\n*/\n  \n  //if (timeToCloseHours == null) breachReasons.push('missing_resolution_time');\n  //else if (!resolutionMet) breachReasons.push('resolution_breached');\n\n  \n\n  //if (timeToCloseHours == null) warnings.push('missing_resolution_time');\n\n  //if (!resolutionMet) warnings.push('closure_time_warning');\n\n if ( Math.trunc(timeToFirstHours)===Math.trunc(timeToCloseHours)){\n\n     //something went wrong\n     warnings.push('anomalous');\n   \n   \n   \n } else if(timeToFirstHours>DEFAULT_SLA_FIRST_RESPONSE_HOURS)\n \n {\n\n   breachReasons.push('first_response_breached');\n   \n }\n\n  if (timeToCloseHours>DEFAULT_SLA_RESOLUTION_HOURS){\n\n     warnings.push('long_closure_time');\n  }\n\n  const slaStatus = breachReasons.length === 0 ? 'Met' : 'Breached';\n\n  return {\n    json: {\n     // ticketId,\n      subject,\n\n      \n     //createdAt: createdAt ? createdAt.toISOString() : null,\n     //closedAt: closedAt ? closedAt.toISOString() : null,\n\n\n    createdAt: createdAt ? createdAt.toDateString() : null,\n    closedAt: closedAt ? closedAt.toDateString() : null,\n\n\n      \n    //  timeToFirstHours: round4(timeToFirstHours),\n      timeToFirstReadable: timeToFirstHours == null ? null : `${Math.floor(timeToFirstHours)}h ${Math.round((timeToFirstHours % 1) * 60)}m`,\n    //  timeToCloseHours: round4(timeToCloseHours),\n      timeToCloseReadable: timeToCloseHours == null ? null : `${Math.floor(timeToCloseHours)}h ${Math.round((timeToCloseHours % 1) * 60)}m`,\n      firstResponseMet,\n   //   resolutionMet,\n   //   SLA_firstHours: SLA_FIRST_HOURS,\n   //   SLA_resolutionHours: SLA_RES_HOURS,\n      professionalServices,\n      slaStatus,\n\n      breachReasons,\n      warnings\n     // raw: ticket // include raw ticket for debugging if desired\n     \n    }\n  };\n});\n\n// n8n expects an array of items back\n//return {\"results\":{output} };\n//const output2 = output.map(() => {\n // json:\"results\":{});\n//});\n  \nreturn  { \"results\": output } ;\n"
+        "jsCode": "// n8n Function node — SLA calculation using $input (avoids 'items' linter errors)\n// Paste into a Function node. Returns one output item per ticket: { json: { ... //} }\n\n\n/**\n * Calculate business hours elapsed between two UTC timestamps.\n * @param {number|string|Date} startUTC - Start time (UTC)\n * @param {number|string|Date} endUTC - End time (UTC)\n * @param {object} [opts]\n * @param {number} [opts.startHour=9]\n * @param {number} [opts.endHour=17]\n * @param {string} [opts.timezoneOffset='+00:00']  // optional local offset e.g. '+01:00'\n * @returns {number} total business hours elapsed\n */\n\n\nfunction calculateBusinessHours(startDate, endDate, timezoneOffset = 0, businessHours = { start: '08:30', end: '16:00' }) {\n    // Validate inputs\n    if (!(startDate instanceof Date) || !(endDate instanceof Date)) {\n        throw new Error('Start and end dates must be valid Date objects');\n    }\n    \n    if (startDate >= endDate) {\n        return 0;\n    }\n\n    // Parse business hours\n    const parseTime = (timeStr) => {\n        const [hours, minutes] = timeStr.split(':').map(Number);\n        if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {\n            throw new Error('Invalid business hours format. Use \"HH:MM\" format.');\n        }\n        return { hours, minutes };\n    };\n\n    const businessStart = parseTime(businessHours.start);\n    const businessEnd = parseTime(businessHours.end);\n\n    // Adjust dates for timezone offset (in minutes)\n    const adjustForTimezone = (date) => {\n        return new Date(date.getTime() + (timezoneOffset * 60 * 1000));\n    };\n\n    const adjustedStart = adjustForTimezone(startDate);\n    const adjustedEnd = adjustForTimezone(endDate);\n\n    // Helper to check if a date is a weekend\n    const isWeekend = (date) => {\n        const day = date.getDay();\n        return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday\n    };\n\n    // Helper to set time on a date\n    const setTime = (date, hours, minutes) => {\n        const newDate = new Date(date);\n        newDate.setHours(hours, minutes, 0, 0);\n        return newDate;\n    };\n\n    // Helper to get start of business day\n    const getBusinessDayStart = (date) => {\n        return setTime(date, businessStart.hours, businessStart.minutes);\n    };\n\n    // Helper to get end of business day\n    const getBusinessDayEnd = (date) => {\n        return setTime(date, businessEnd.hours, businessEnd.minutes);\n    };\n\n    // Calculate duration in milliseconds\n    let totalBusinessMs = 0;\n    let currentDate = new Date(adjustedStart);\n    \n    // Set current date to next business day if starting outside business hours or on weekend\n    if (isWeekend(currentDate) || \n        currentDate < getBusinessDayStart(currentDate) || \n        currentDate >= getBusinessDayEnd(currentDate)) {\n        \n        currentDate = getBusinessDayStart(new Date(currentDate));\n        currentDate.setDate(currentDate.getDate() + 1);\n        \n        // Skip weekends\n        while (isWeekend(currentDate)) {\n            currentDate.setDate(currentDate.getDate() + 1);\n        }\n    }\n\n    // If current date is still after end date, return 0\n    if (currentDate >= adjustedEnd) {\n        return 0;\n    }\n\n    // Process each day\n    while (currentDate < adjustedEnd) {\n        if (isWeekend(currentDate)) {\n            currentDate.setDate(currentDate.getDate() + 1);\n            currentDate = getBusinessDayStart(currentDate);\n            continue;\n        }\n\n        const dayStart = getBusinessDayStart(currentDate);\n        const dayEnd = getBusinessDayEnd(currentDate);\n\n        // For first day, use actual start time if it's within business hours\n        const effectiveStart = currentDate.getTime() === adjustedStart.getTime() ? \n            Math.max(dayStart.getTime(), adjustedStart.getTime()) : dayStart.getTime();\n        \n        // For last day, use actual end time if it's within business hours\n        const effectiveEnd = currentDate.toDateString() === adjustedEnd.toDateString() ? \n            Math.min(dayEnd.getTime(), adjustedEnd.getTime()) : dayEnd.getTime();\n\n        // Add business hours for this day\n        if (effectiveStart < effectiveEnd) {\n            totalBusinessMs += effectiveEnd - effectiveStart;\n        }\n\n        // Move to next business day\n        currentDate.setDate(currentDate.getDate() + 1);\n        currentDate = getBusinessDayStart(currentDate);\n        \n        // Skip weekends\n        while (isWeekend(currentDate)) {\n            currentDate.setDate(currentDate.getDate() + 1);\n        }\n    }\n\n    // Convert milliseconds to hours\n    return totalBusinessMs / (1000 * 60 * 60);\n}\n\n// Example usage:\n//const start = new Date('2024-01-15T08:00:00');\n//const end = new Date('2024-01-17T16:00:00');\n\n// Basic usage with default business hours (8:30 AM to 2:00 PM)\n//console.log(calculateBusinessHours(start, end)); // Default timezone offset \n\n// With timezone offset (e.g., UTC+2 hours = -120 minutes)\n//console.log(calculateBusinessHours(start, end, -120));\n\n// Custom business hours\n//console.log(calculateBusinessHours(start, end, 0, { start: '09:00', end: '17:00' }));\n\n// Weekend example\n//const weekendStart = new Date('2024-01-13T08:00:00'); // Saturday\n//const weekendEnd = new Date('2024-01-15T10:00:00');   // Monday\n//console.log(calculateBusinessHours(weekendStart, weekendEnd)); // Only counts Monday business hours\n\n\n\nfunction getBusinessHours(startUTC, endUTC, opts = {}) {\n  const startHour = opts.startHour ?? 9;\n\n // console.log(\"start hour\");\n  //console.log(startHour);\n  const endHour = opts.endHour ?? 17;\n//  console.log(\"end hour\");\n // console.log(endHour);\n  const tzOffset = opts.timezoneOffset ?? '+00:00';\n\n  // helper: parse timestamp → local Date\n  const parseToLocal = (utcValue) => {\n    const d = new Date(utcValue);\n    // apply timezone offset manually\n    const sign = tzOffset.startsWith('-') ? -1 : 1;\n    const [h, m] = tzOffset.slice(1).split(':').map(Number);\n    const offsetMinutes = sign * (h * 60 + (m || 0));\n    d.setMinutes(d.getMinutes() + offsetMinutes);\n    return d;\n  };\n\n  let start = parseToLocal(startUTC);\n // console.log(\"start\");\n // console.log(start);\n  let end = parseToLocal(endUTC);\n//  console.log(\"end\");\n  //console.log(end);\n  \n  if (end <= start) return 0;\n\n  let totalHours = 0;\n  const msInHour = 1000 * 60 * 60;\n\n  // iterate day by day\n  for (\n    let d = new Date(start.getFullYear(), start.getMonth(), start.getDate());\n    d <= end;\n    d.setDate(d.getDate() + 1)\n  ) {\n    const day = d.getDay(); // 0=Sun, 6=Sat\n    if (day === 0 || day === 6) continue; // skip weekends\n\n    const dayStart = new Date(d);\n    dayStart.setHours(startHour, 0, 0, 0);\n    const dayEnd = new Date(d);\n    dayEnd.setHours(endHour, 0, 0, 0);\n\n    // find overlap window within this day\n    const rangeStart = start > dayStart ? start : dayStart;\n    const rangeEnd = end < dayEnd ? end : dayEnd;\n\n    if (rangeEnd > rangeStart) {\n//    console.log(\" Each totalHours = \");\n //     console.log(totalHours);\n      totalHours += (rangeEnd - rangeStart) / msInHour;\n    }\n  }\n\n // console.log(\"Final totalHours = \");\n//  console.log(totalHours);\n // console.log(\" ********* \");\n  \n  return totalHours;\n}\n\n// Example usage (inside n8n Function node):\n//const createdAt = 1739782800000;   // Fri 17 Feb 2025 15:00 UTC\n//const firstResponse = 1739955600000; // Mon 20 Feb 2025 11:00 UTC\n\n//const hours = getBusinessHours(createdAt, firstResponse, {\n//  startHour: 9,\n//  endHour: 17,\n//  timezoneOffset: '+01:00' // e.g., Europe/London in winter\n//});\n\n//return [{ business_hours_elapsed: hours }];\n\n\n// === CONFIG ===\nconst DEFAULT_SLA_FIRST_RESPONSE_HOURS = 8; // change if needed\n//const DEFAULT_SLA_RESOLUTION_HOURS = 1000;   // change if needed\n\n// If true, and hs_time_to_first_agent_reply is missing, use hs_lastmodifieddate/updatedAt as a fallback\nconst FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE = true;\n\n// === helpers ===\nfunction parseTimestamp(v) {\n  if (v === undefined || v === null || v === '') return null;\n  if (typeof v === 'number') {\n    // heuristic: large numbers are ms\n    if (v > 1e11) return new Date(v);\n    return new Date(v * 1000);\n  }\n  if (typeof v === 'string') {\n    if (/^\\d+$/.test(v)) return parseTimestamp(Number(v));\n    const d = new Date(v);\n    if (!isNaN(d.getTime())) return d;\n    return null;\n  }\n  return null;\n}\nfunction msToHours(ms) {\n  return ms == null ? null : ms / (1000 * 60 * 60);\n}\nfunction round4(n) {\n  return n == null ? null : Number(n.toFixed(4));\n}\nfunction getProp(o, key) {\n  if (!o) return undefined;\n  if (o.properties && o.properties[key] !== undefined) return o.properties[key];\n  if (o[key] !== undefined) return o[key];\n  return undefined;\n}\n\n\n// END HELPERS\n\n\n\n// Use n8n $input helper to get incoming items (linter-friendly)\nconst incoming = $input.all(); // array of { json:, binary: }\n\n// === normalize input (support multiple possible paste shapes) ===\nlet rawTickets = [];\nif (incoming.length === 1) {\n  const firstJson = incoming[0].json;\n  if (Array.isArray(firstJson) && firstJson.length > 0 && Array.isArray(firstJson[0].results)) {\n    // shape: [ { total, results: [...] } ]\n    rawTickets = firstJson[0].results;\n  } else if (firstJson && Array.isArray(firstJson.results)) {\n    // shape: { total, results: [...] }\n    rawTickets = firstJson.results;\n  } else if (Array.isArray(firstJson)) {\n    // shape: [ { id, properties... }, ... ]\n    rawTickets = firstJson;\n  } else {\n    // fallback: treat each incoming item as a ticket (single item per input)\n    rawTickets = incoming.map(i => i.json);\n  }\n} else {\n  rawTickets = incoming.map(i => i.json);\n}\n\n// === process tickets ===\nconst output = rawTickets.map(ticket => {\n  // ids & subject\n//  const ticketId = ticket.id ?? ticket.properties?.hs_object_id ?? ticket.properties?.hs_object_id ?? null;\n\n  \n  const subject = getProp(ticket, 'subject') ?? ticket.title ?? null;\n\n  // created / closed\n  const createddate = getProp(ticket, 'createdate') ?? ticket.createdAt ?? ticket.created_at ?? ticket.created;\n\n  \n\n  const closedRaw = getProp(ticket, 'closed_date') ?? ticket.closedAt ?? ticket.closed_at ?? ticket.closed;\n  \n  const closedAt = parseTimestamp(closedRaw);\n\n    const createdAt = parseTimestamp(createddate);\n\n\n  // built-in ms fields (HubSpot sometimes gives ms, sometimes numeric-string)\n  const rawFirstMs = getProp(ticket, 'time_to_first_agent_reply') ;\n  \n  const rawCloseMs = getProp(ticket, 'time_to_close');\n // console.log('DEBUG 000');\n // console.log(rawFirstMs);\n // console.log('DEBUG 001');\n // console.log(Number(rawFirstMs));\n // console.log('DEBUG 002');\n  const firstMs = rawFirstMs ? Number(rawFirstMs) : null;\n  const closeMs = rawCloseMs ? Number(rawCloseMs) : null;\n  //console.log(firstMs);\n // console.log('DEBUG 003');\n  // compute durations (hours)\n  let timeToFirstHours = firstMs ? msToHours(firstMs) : null;\n // console.log(timeToFirstHours);\n//  console.log('DEBUG END');\n  let timeToCloseHours = closeMs ? msToHours(closeMs) : null;\n\n  // fallback: compute timeToFirst using last modified / updated if enabled\n  if (!timeToFirstHours && FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE && createdAt) {\n    const lastModRaw = getProp(ticket, 'hs_lastmodifieddate') ?? ticket.updatedAt ?? ticket.updated_at;\n    \n    const lastModgetTime =  parseTimestamp(lastModRaw).getTime();\n\n    const createdAtgetTime = createdAt.getTime();\n    \n    //if (lastMod) {\n      timeToFirstHours = msToHours(lastModgetTime - createdAtgetTime);\n\n  //console.log('DEBUG 000');\n  //    console.log(lastMod);\n  //console.log(msToHours(lastModgetTime));\n // console.log('DEBUG 001');\n //     console.log(createdAt);\n // console.log(msToHours(createdAtgetTime));\n // console.log('DEBUG 002');\n\n\n      \n    \n  }\n\n\n\n//const hours = getBusinessHours(createdAt, firstResponse, {\n//  startHour: 9,\n//  endHour: 17,\n//  timezoneOffset: '+01:00' // e.g., Europe/London in winter\n//});\n\n//const start = new Date($json[\"properties\"][\"createdate\"]).getTime();\n\n  const start = new Date(createddate);\n//const end = new Date($json[\"properties\"][\"first_response_time\"]).getTime();\n\n  const end = new Date(ticket.properties?.first_agent_reply_date);\nconst first_response_business_hours = getBusinessHours(start, end, { \n  \n  startHour: 8.5,\n  endHour: 16,\n  timezoneOffset: '+02:00' });\n//return [{ business_hours_elapsed: hours }];\n\n  //const first_response_business_hours2 = calculateBusinessHours(start, end, -120);\n\n  const business_hours_reply = calculateBusinessHours(start, end,60);\n\n  // fallback: compute timeToClose from createdAt/closedAt when hs_time_to_close is missing\n  if (timeToCloseHours == null && createdAt && closedAt) {\n    timeToCloseHours = msToHours(closedAt.getTime() - createdAt.getTime());\n  }\n\n  // per-ticket SLA override (optional): ticket.sla = { firstResponseHours, resolutionHours }\n\n  \n  //const SLA_FIRST_HOURS = (ticket.sla && ticket.sla.firstResponseHours) ? Number(ticket.sla.firstResponseHours) : DEFAULT_SLA_FIRST_RESPONSE_HOURS;\n // const SLA_RES_HOURS = (ticket.sla && ticket.sla.resolutionHours) ? Number(ticket.sla.resolutionHours) : DEFAULT_SLA_RESOLUTION_HOURS;\n  \n\n // const firstResponseMet = (timeToFirstHours != null) ? (timeToFirstHours <= DEFAULT_SLA_FIRST_RESPONSE_HOURS) : false;\n\n\n  const firstResponseMet = (first_response_business_hours != null) ? (first_response_business_hours <= DEFAULT_SLA_FIRST_RESPONSE_HOURS) : false;\n\n\n  \n\n\n  \n  //const resolutionMet = (timeToCloseHours != null) ? (timeToCloseHours <= //DEFAULT_SLA_RESOLUTION_HOURS) : true;\n\n  // reasons\n  const breachReasons = [];\n  if (timeToFirstHours == null) breachReasons.push('missing_first_response_time');\n  else if (!firstResponseMet) breachReasons.push('first_response_breached');\n\n  //if (timeToCloseHours == null) breachReasons.push('missing_resolution_time');\n  //if (timeToCloseHours == null) breachReasons.push('missing_resolution_time');\n  //else if (!resolutionMet) breachReasons.push('resolution_breached');\n\n // if (!resolutionMet) breachReasons.push('resolution_breached');\n\n  const slaStatus = breachReasons.length === 0 ? 'Met' : 'Breached';\n\n  return {\n    json: {\n      subject,\n      createdAt: createdAt ? createdAt.toISOString() : null,\n      closedAt: closedAt ? closedAt.toISOString() : null,\n      //`${Math.round(first_response_business_hours)}`,\n    //  first_response_business_hours,\n      business_hours_reply,\n      timeToFirstReply: timeToFirstHours == null ? null : `${Math.floor(timeToFirstHours)}h ${Math.round((timeToFirstHours % 1) * 60)}m`,\n\n      timeToClose: timeToCloseHours == null ? null : `${Math.floor(timeToCloseHours)}h ${Math.round((timeToCloseHours % 1) * 60)}m`,\n      firstResponseMet,\n     // resolutionMet\n     \n    }\n  };\n});\n\n// n8n expects an array of items back\n//return {\"results\":{output} };\n//const output2 = output.map(() => {\n // json:\"results\":{});\n//});\n  \nreturn  { \"results\": output } ;\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        592,
-        176
+        464,
+        32
       ],
-      "id": "86f3e79a-3214-4f83-8f69-4cbb6f49a8e7",
+      "id": "e596d5de-6ed1-4897-991c-42393b93a68f",
       "name": "SLA_Logic"
-    },
-    {
-      "parameters": {
-        "command": "python /home/chris/src/Xl2PPT/xl2ppt.py"
-      },
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [
-        704,
-        448
-      ],
-      "id": "bff8c35d-ccfb-4e11-baf4-f320c33b1adc",
-      "name": "Execute Command",
-      "disabled": true
     }
   ],
   "pinData": {},
@@ -243,10 +230,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "dd0c892d-5f82-4027-9a6a-44c24ed788cc",
+  "versionId": "dccaac7d-1955-44a8-83c1-23636eff8d66",
   "meta": {
-    "instanceId": "1e4bdd395bd9a43ad9c67815e4bae6c3a7b056eabe93685749ec3add43e2c23b"
+    "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
   },
-  "id": "n8PRxW7gpXfKQVUz",
+  "id": "JBXxhxvHMO6mizeG",
   "tags": []
 }
