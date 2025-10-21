@@ -3,26 +3,13 @@
   "nodes": [
     {
       "parameters": {
-        "inputSource": "passthrough"
-      },
-      "id": "05e83404-20fb-40f2-bbf8-297fa4bca30b",
-      "typeVersion": 1.1,
-      "name": "Start",
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "position": [
-        -672,
-        48
-      ]
-    },
-    {
-      "parameters": {
         "method": "POST",
         "url": "https://api.hubapi.com/crm/v3/objects/tickets/search",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"first_response\",\n    \"first_agent_reply_date\",\n    \"time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -30,15 +17,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -448,
-        -96
+        1024,
+        368
       ],
-      "id": "4e157309-84f8-49de-9d15-32f4d77555e9",
-      "name": "HTTP Request1",
+      "id": "2fc5292b-00ce-47de-9f7f-44921d07143b",
+      "name": "HTTP Request2",
       "credentials": {
         "hubspotAppToken": {
-          "id": "2yehenPyLDtzjpO1",
-          "name": "HubSpot App Token account"
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
         }
       }
     },
@@ -50,7 +37,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n      \"first_agent_reply_date\",\n    \"time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -58,15 +45,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -448,
-        144
+        1024,
+        608
       ],
-      "id": "832efb2a-7c10-4369-9761-996484b085a8",
-      "name": "HTTP Request",
+      "id": "53f56b5f-8311-462a-81a6-7be376057824",
+      "name": "HTTP Request3",
       "credentials": {
         "hubspotAppToken": {
-          "id": "2yehenPyLDtzjpO1",
-          "name": "HubSpot App Token account"
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
         }
       }
     },
@@ -79,11 +66,11 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -224,
-        -48
+        1248,
+        416
       ],
-      "id": "0c51ad5b-3011-4928-b759-9db9b13879cf",
-      "name": "Merge"
+      "id": "e95ff27c-561e-4701-8c70-4b667dc1f6dc",
+      "name": "Merge1"
     },
     {
       "parameters": {
@@ -94,11 +81,11 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        672,
-        -48
+        2144,
+        416
       ],
-      "id": "40af6f94-f595-4d45-9fe9-b7c3cffeb6c7",
-      "name": "Convert to File"
+      "id": "f1d387a4-421e-4804-9a4d-82254da4c967",
+      "name": "Convert to File1"
     },
     {
       "parameters": {
@@ -108,11 +95,11 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        448,
-        -48
+        1920,
+        416
       ],
-      "id": "a09db9f9-21bc-4aff-8411-ceb33ebbcac6",
-      "name": "Split Out"
+      "id": "a1fb4b58-b23d-4c47-85be-6f44a30dd25c",
+      "name": "Split Out1"
     },
     {
       "parameters": {
@@ -121,104 +108,117 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        0,
-        -48
+        1472,
+        416
       ],
-      "id": "54420f51-3ac2-4bb8-b752-20f5a2a5a323",
-      "name": "SuperMerge"
+      "id": "d70da350-7107-42da-9e59-8b5d27353e87",
+      "name": "SuperMerge1"
     },
     {
       "parameters": {
-        "jsCode": "// n8n Function node — SLA calculation using $input (avoids 'items' linter errors)\n// Paste into a Function node. Returns one output item per ticket: { json: { ... } }\n\n// === CONFIG ===\nconst DEFAULT_SLA_FIRST_RESPONSE_HOURS = 48; // change if needed\nconst DEFAULT_SLA_RESOLUTION_HOURS = 1000;   // change if needed\n\n// If true, and hs_time_to_first_agent_reply is missing, use hs_lastmodifieddate/updatedAt as a fallback\nconst FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE = true;\n\n// === helpers ===\nfunction parseTimestamp(v) {\n  if (v === undefined || v === null || v === '') return null;\n  if (typeof v === 'number') {\n    // heuristic: large numbers are ms\n    if (v > 1e11) return new Date(v);\n    return new Date(v * 1000);\n  }\n  if (typeof v === 'string') {\n    if (/^\\d+$/.test(v)) return parseTimestamp(Number(v));\n    const d = new Date(v);\n    if (!isNaN(d.getTime())) return d;\n    return null;\n  }\n  return null;\n}\nfunction msToHours(ms) {\n  return ms == null ? null : ms / (1000 * 60 * 60);\n}\nfunction round4(n) {\n  return n == null ? null : Number(n.toFixed(4));\n}\nfunction getProp(o, key) {\n  if (!o) return undefined;\n  if (o.properties && o.properties[key] !== undefined) return o.properties[key];\n  if (o[key] !== undefined) return o[key];\n  return undefined;\n}\n\n// Use n8n $input helper to get incoming items (linter-friendly)\nconst incoming = $input.all(); // array of { json:, binary: }\n\n// === normalize input (support multiple possible paste shapes) ===\nlet rawTickets = [];\nif (incoming.length === 1) {\n  const firstJson = incoming[0].json;\n  if (Array.isArray(firstJson) && firstJson.length > 0 && Array.isArray(firstJson[0].results)) {\n    // shape: [ { total, results: [...] } ]\n    rawTickets = firstJson[0].results;\n  } else if (firstJson && Array.isArray(firstJson.results)) {\n    // shape: { total, results: [...] }\n    rawTickets = firstJson.results;\n  } else if (Array.isArray(firstJson)) {\n    // shape: [ { id, properties... }, ... ]\n    rawTickets = firstJson;\n  } else {\n    // fallback: treat each incoming item as a ticket (single item per input)\n    rawTickets = incoming.map(i => i.json);\n  }\n} else {\n  rawTickets = incoming.map(i => i.json);\n}\n\n// === process tickets ===\nconst output = rawTickets.map(ticket => {\n  // ids & subject\n  const ticketId = ticket.id ?? ticket.properties?.hs_object_id ?? ticket.properties?.hs_object_id ?? null;\n  const subject = getProp(ticket, 'subject') ?? ticket.title ?? null;\n\n  // created / closed\n  const createdRaw = getProp(ticket, 'createdate') ?? ticket.createdAt ?? ticket.created_at ?? ticket.created;\n  const createdAt = parseTimestamp(createdRaw);\n\n  const closedRaw = getProp(ticket, 'closed_date') ?? ticket.closedAt ?? ticket.closed_at ?? ticket.closed;\n  const closedAt = parseTimestamp(closedRaw);\n\n  // built-in ms fields (HubSpot sometimes gives ms, sometimes numeric-string)\n  const rawFirstMs = getProp(ticket, 'time_to_first_agent_reply') ;\n  \n  const rawCloseMs = getProp(ticket, 'time_to_close');\n // console.log('DEBUG 000');\n // console.log(rawFirstMs);\n // console.log('DEBUG 001');\n // console.log(Number(rawFirstMs));\n // console.log('DEBUG 002');\n  const firstMs = rawFirstMs ? Number(rawFirstMs) : null;\n  const closeMs = rawCloseMs ? Number(rawCloseMs) : null;\n  //console.log(firstMs);\n // console.log('DEBUG 003');\n  // compute durations (hours)\n  let timeToFirstHours = firstMs ? msToHours(firstMs) : null;\n  console.log(timeToFirstHours);\n  console.log('DEBUG END');\n  let timeToCloseHours = closeMs ? msToHours(closeMs) : null;\n\n  // fallback: compute timeToFirst using last modified / updated if enabled\n  if (!timeToFirstHours && FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE && createdAt) {\n    const lastModRaw = getProp(ticket, 'hs_lastmodifieddate') ?? ticket.updatedAt ?? ticket.updated_at;\n    const lastMod = parseTimestamp(lastModRaw);\n\n    const lastModgetTime = lastMod.getTime();\n\n    const createdAtgetTime = createdAt.getTime();\n    \n    if (lastMod) {\n      timeToFirstHours = msToHours(lastModgetTime - createdAtgetTime);\n\n  console.log('DEBUG 000');\n      console.log(lastMod);\n  console.log(msToHours(lastModgetTime));\n  console.log('DEBUG 001');\n      console.log(createdAt);\n  console.log(msToHours(createdAtgetTime));\n // console.log('DEBUG 002');\n\n\n      \n    }\n  }\n\n    \n\n\n  // fallback: compute timeToClose from createdAt/closedAt when hs_time_to_close is missing\n  if (timeToCloseHours == null && createdAt && closedAt) {\n    timeToCloseHours = msToHours(closedAt.getTime() - createdAt.getTime());\n  }\n\n  // per-ticket SLA override (optional): ticket.sla = { firstResponseHours, resolutionHours }\n\n  \n  //const SLA_FIRST_HOURS = (ticket.sla && ticket.sla.firstResponseHours) ? Number(ticket.sla.firstResponseHours) : DEFAULT_SLA_FIRST_RESPONSE_HOURS;\n // const SLA_RES_HOURS = (ticket.sla && ticket.sla.resolutionHours) ? Number(ticket.sla.resolutionHours) : DEFAULT_SLA_RESOLUTION_HOURS;\n  \n\n  const firstResponseMet = (timeToFirstHours != null) ? (timeToFirstHours <= DEFAULT_SLA_FIRST_RESPONSE_HOURS) : false;\n  const resolutionMet = (timeToCloseHours != null) ? (timeToCloseHours <= DEFAULT_SLA_RESOLUTION_HOURS) : true;\n\n  // reasons\n  const breachReasons = [];\n  if (timeToFirstHours == null) breachReasons.push('missing_first_response_time');\n  else if (!firstResponseMet) breachReasons.push('first_response_breached');\n\n  //if (timeToCloseHours == null) breachReasons.push('missing_resolution_time');\n  //if (timeToCloseHours == null) breachReasons.push('missing_resolution_time');\n  //else if (!resolutionMet) breachReasons.push('resolution_breached');\n\n  if (!resolutionMet) breachReasons.push('resolution_breached');\n\n  const slaStatus = breachReasons.length === 0 ? 'Met' : 'Breached';\n\n  return {\n    json: {\n      subject,\n      createdAt: createdAt ? createdAt.toISOString() : null,\n      closedAt: closedAt ? closedAt.toISOString() : null,\n\n      timeToFirstReadable: timeToFirstHours == null ? null : `${Math.floor(timeToFirstHours)}h ${Math.round((timeToFirstHours % 1) * 60)}m`,\n\n      timeToCloseReadable: timeToCloseHours == null ? null : `${Math.floor(timeToCloseHours)}h ${Math.round((timeToCloseHours % 1) * 60)}m`,\n      firstResponseMet,\n      resolutionMet\n     \n    }\n  };\n});\n\n// n8n expects an array of items back\n//return {\"results\":{output} };\n//const output2 = output.map(() => {\n // json:\"results\":{});\n//});\n  \nreturn  { \"results\": output } ;\n"
+        "jsCode": "// n8n Function node — SLA calculation using $input (avoids 'items' linter errors)\n// Paste into a Function node. Returns one output item per ticket: { json: { ... //} }\n\n\n/**\n * Calculate business hours elapsed between two UTC timestamps.\n * @param {number|string|Date} startUTC - Start time (UTC)\n * @param {number|string|Date} endUTC - End time (UTC)\n * @param {object} [opts]\n * @param {number} [opts.startHour=9]\n * @param {number} [opts.endHour=17]\n * @param {string} [opts.timezoneOffset='+00:00']  // optional local offset e.g. '+01:00'\n * @returns {number} total business hours elapsed\n */\nfunction getBusinessHours(startUTC, endUTC, opts = {}) {\n  const startHour = opts.startHour ?? 9;\n  const endHour = opts.endHour ?? 17;\n  const tzOffset = opts.timezoneOffset ?? '+00:00';\n\n  // helper: parse timestamp → local Date\n  const parseToLocal = (utcValue) => {\n    const d = new Date(utcValue);\n    // apply timezone offset manually\n    const sign = tzOffset.startsWith('-') ? -1 : 1;\n    const [h, m] = tzOffset.slice(1).split(':').map(Number);\n    const offsetMinutes = sign * (h * 60 + (m || 0));\n    d.setMinutes(d.getMinutes() + offsetMinutes);\n    return d;\n  };\n\n  let start = parseToLocal(startUTC);\n  let end = parseToLocal(endUTC);\n  if (end <= start) return 0;\n\n  let totalHours = 0;\n  const msInHour = 1000 * 60 * 60;\n\n  // iterate day by day\n  for (\n    let d = new Date(start.getFullYear(), start.getMonth(), start.getDate());\n    d <= end;\n    d.setDate(d.getDate() + 1)\n  ) {\n    const day = d.getDay(); // 0=Sun, 6=Sat\n    if (day === 0 || day === 6) continue; // skip weekends\n\n    const dayStart = new Date(d);\n    dayStart.setHours(startHour, 0, 0, 0);\n    const dayEnd = new Date(d);\n    dayEnd.setHours(endHour, 0, 0, 0);\n\n    // find overlap window within this day\n    const rangeStart = start > dayStart ? start : dayStart;\n    const rangeEnd = end < dayEnd ? end : dayEnd;\n\n    if (rangeEnd > rangeStart) {\n      totalHours += (rangeEnd - rangeStart) / msInHour;\n    }\n  }\n\n  return totalHours;\n}\n\n// Example usage (inside n8n Function node):\n//const createdAt = 1739782800000;   // Fri 17 Feb 2025 15:00 UTC\n//const firstResponse = 1739955600000; // Mon 20 Feb 2025 11:00 UTC\n\n//const hours = getBusinessHours(createdAt, firstResponse, {\n//  startHour: 9,\n//  endHour: 17,\n//  timezoneOffset: '+01:00' // e.g., Europe/London in winter\n//});\n\n//return [{ business_hours_elapsed: hours }];\n\n\n// === CONFIG ===\nconst DEFAULT_SLA_FIRST_RESPONSE_HOURS = 8; // change if needed\n//const DEFAULT_SLA_RESOLUTION_HOURS = 1000;   // change if needed\n\n// If true, and hs_time_to_first_agent_reply is missing, use hs_lastmodifieddate/updatedAt as a fallback\nconst FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE = true;\n\n// === helpers ===\nfunction parseTimestamp(v) {\n  if (v === undefined || v === null || v === '') return null;\n  if (typeof v === 'number') {\n    // heuristic: large numbers are ms\n    if (v > 1e11) return new Date(v);\n    return new Date(v * 1000);\n  }\n  if (typeof v === 'string') {\n    if (/^\\d+$/.test(v)) return parseTimestamp(Number(v));\n    const d = new Date(v);\n    if (!isNaN(d.getTime())) return d;\n    return null;\n  }\n  return null;\n}\nfunction msToHours(ms) {\n  return ms == null ? null : ms / (1000 * 60 * 60);\n}\nfunction round4(n) {\n  return n == null ? null : Number(n.toFixed(4));\n}\nfunction getProp(o, key) {\n  if (!o) return undefined;\n  if (o.properties && o.properties[key] !== undefined) return o.properties[key];\n  if (o[key] !== undefined) return o[key];\n  return undefined;\n}\n\n\n// END HELPERS\n\n\n\n// Use n8n $input helper to get incoming items (linter-friendly)\nconst incoming = $input.all(); // array of { json:, binary: }\n\n// === normalize input (support multiple possible paste shapes) ===\nlet rawTickets = [];\nif (incoming.length === 1) {\n  const firstJson = incoming[0].json;\n  if (Array.isArray(firstJson) && firstJson.length > 0 && Array.isArray(firstJson[0].results)) {\n    // shape: [ { total, results: [...] } ]\n    rawTickets = firstJson[0].results;\n  } else if (firstJson && Array.isArray(firstJson.results)) {\n    // shape: { total, results: [...] }\n    rawTickets = firstJson.results;\n  } else if (Array.isArray(firstJson)) {\n    // shape: [ { id, properties... }, ... ]\n    rawTickets = firstJson;\n  } else {\n    // fallback: treat each incoming item as a ticket (single item per input)\n    rawTickets = incoming.map(i => i.json);\n  }\n} else {\n  rawTickets = incoming.map(i => i.json);\n}\n\n// === process tickets ===\nconst output = rawTickets.map(ticket => {\n  // ids & subject\n//  const ticketId = ticket.id ?? ticket.properties?.hs_object_id ?? ticket.properties?.hs_object_id ?? null;\n\n  \n  const subject = getProp(ticket, 'subject') ?? ticket.title ?? null;\n\n  // created / closed\n  const createddate = getProp(ticket, 'createdate') ?? ticket.createdAt ?? ticket.created_at ?? ticket.created;\n\n  \n\n  const closedRaw = getProp(ticket, 'closed_date') ?? ticket.closedAt ?? ticket.closed_at ?? ticket.closed;\n  \n  const closedAt = parseTimestamp(closedRaw);\n\n    const createdAt = parseTimestamp(createddate);\n\n\n  // built-in ms fields (HubSpot sometimes gives ms, sometimes numeric-string)\n  const rawFirstMs = getProp(ticket, 'time_to_first_agent_reply') ;\n  \n  const rawCloseMs = getProp(ticket, 'time_to_close');\n // console.log('DEBUG 000');\n // console.log(rawFirstMs);\n // console.log('DEBUG 001');\n // console.log(Number(rawFirstMs));\n // console.log('DEBUG 002');\n  const firstMs = rawFirstMs ? Number(rawFirstMs) : null;\n  const closeMs = rawCloseMs ? Number(rawCloseMs) : null;\n  //console.log(firstMs);\n // console.log('DEBUG 003');\n  // compute durations (hours)\n  let timeToFirstHours = firstMs ? msToHours(firstMs) : null;\n // console.log(timeToFirstHours);\n//  console.log('DEBUG END');\n  let timeToCloseHours = closeMs ? msToHours(closeMs) : null;\n\n  // fallback: compute timeToFirst using last modified / updated if enabled\n  if (!timeToFirstHours && FALLBACK_USE_LAST_MODIFIED_AS_FIRST_RESPONSE && createdAt) {\n    const lastModRaw = getProp(ticket, 'hs_lastmodifieddate') ?? ticket.updatedAt ?? ticket.updated_at;\n    \n    const lastModgetTime =  parseTimestamp(lastModRaw).getTime();\n\n    const createdAtgetTime = createdAt.getTime();\n    \n    //if (lastMod) {\n      timeToFirstHours = msToHours(lastModgetTime - createdAtgetTime);\n\n  //console.log('DEBUG 000');\n  //    console.log(lastMod);\n  //console.log(msToHours(lastModgetTime));\n // console.log('DEBUG 001');\n //     console.log(createdAt);\n // console.log(msToHours(createdAtgetTime));\n // console.log('DEBUG 002');\n\n\n      \n    \n  }\n\n\n\n//const hours = getBusinessHours(createdAt, firstResponse, {\n//  startHour: 9,\n//  endHour: 17,\n//  timezoneOffset: '+01:00' // e.g., Europe/London in winter\n//});\n\n//const start = new Date($json[\"properties\"][\"createdate\"]).getTime();\n\n  const start = new Date(createddate);\n//const end = new Date($json[\"properties\"][\"first_response_time\"]).getTime();\n\n  const end = new Date(ticket.properties?.first_agent_reply_date);\nconst first_response_business_hours = getBusinessHours(start, end, { \n  \n  startHour: 9,\n  endHour: 17,\n  timezoneOffset: '+02:00' });\n//return [{ business_hours_elapsed: hours }];\n\n\n\n  // fallback: compute timeToClose from createdAt/closedAt when hs_time_to_close is missing\n  if (timeToCloseHours == null && createdAt && closedAt) {\n    timeToCloseHours = msToHours(closedAt.getTime() - createdAt.getTime());\n  }\n\n  // per-ticket SLA override (optional): ticket.sla = { firstResponseHours, resolutionHours }\n\n  \n  //const SLA_FIRST_HOURS = (ticket.sla && ticket.sla.firstResponseHours) ? Number(ticket.sla.firstResponseHours) : DEFAULT_SLA_FIRST_RESPONSE_HOURS;\n // const SLA_RES_HOURS = (ticket.sla && ticket.sla.resolutionHours) ? Number(ticket.sla.resolutionHours) : DEFAULT_SLA_RESOLUTION_HOURS;\n  \n\n // const firstResponseMet = (timeToFirstHours != null) ? (timeToFirstHours <= DEFAULT_SLA_FIRST_RESPONSE_HOURS) : false;\n\n\n  const firstResponseMet = (first_response_business_hours != null) ? (first_response_business_hours <= DEFAULT_SLA_FIRST_RESPONSE_HOURS) : false;\n\n\n  \n\n\n  \n  //const resolutionMet = (timeToCloseHours != null) ? (timeToCloseHours <= //DEFAULT_SLA_RESOLUTION_HOURS) : true;\n\n  // reasons\n  const breachReasons = [];\n  if (timeToFirstHours == null) breachReasons.push('missing_first_response_time');\n  else if (!firstResponseMet) breachReasons.push('first_response_breached');\n\n  //if (timeToCloseHours == null) breachReasons.push('missing_resolution_time');\n  //if (timeToCloseHours == null) breachReasons.push('missing_resolution_time');\n  //else if (!resolutionMet) breachReasons.push('resolution_breached');\n\n // if (!resolutionMet) breachReasons.push('resolution_breached');\n\n  const slaStatus = breachReasons.length === 0 ? 'Met' : 'Breached';\n\n  return {\n    json: {\n      subject,\n      createdAt: createdAt ? createdAt.toISOString() : null,\n      closedAt: closedAt ? closedAt.toISOString() : null,\n      //`${Math.round(first_response_business_hours)}`,\n      first_response_business_hours,\n      timeToFirstReply: timeToFirstHours == null ? null : `${Math.floor(timeToFirstHours)}h ${Math.round((timeToFirstHours % 1) * 60)}m`,\n\n      timeToClose: timeToCloseHours == null ? null : `${Math.floor(timeToCloseHours)}h ${Math.round((timeToCloseHours % 1) * 60)}m`,\n      firstResponseMet,\n     // resolutionMet\n     \n    }\n  };\n});\n\n// n8n expects an array of items back\n//return {\"results\":{output} };\n//const output2 = output.map(() => {\n // json:\"results\":{});\n//});\n  \nreturn  { \"results\": output } ;\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        224,
-        -48
+        1696,
+        416
       ],
-      "id": "ce19cfd3-59e1-47b1-8655-c5f62e666dd5",
-      "name": "SLA_Logic"
+      "id": "48e121a4-7693-40e2-95e9-f939fa818a5d",
+      "name": "SLA_Logic1"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "582c0830-746d-4f92-98ea-39f36cb61158",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        784,
+        512
+      ]
     }
   ],
   "pinData": {},
   "connections": {
-    "Start": {
+    "HTTP Request2": {
       "main": [
         [
           {
-            "node": "HTTP Request1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "HTTP Request",
+            "node": "Merge1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "HTTP Request3": {
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Merge1",
             "type": "main",
             "index": 1
           }
         ]
       ]
     },
-    "HTTP Request1": {
+    "Merge1": {
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "SuperMerge1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Merge": {
+    "Split Out1": {
       "main": [
         [
           {
-            "node": "SuperMerge",
+            "node": "Convert to File1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Split Out": {
+    "SuperMerge1": {
       "main": [
         [
           {
-            "node": "Convert to File",
+            "node": "SLA_Logic1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "SuperMerge": {
+    "SLA_Logic1": {
       "main": [
         [
           {
-            "node": "SLA_Logic",
+            "node": "Split Out1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "SLA_Logic": {
+    "Start": {
       "main": [
         [
           {
-            "node": "Split Out",
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request3",
             "type": "main",
             "index": 0
           }
@@ -230,10 +230,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "5c8dd6ee-b1b9-492f-b6b4-8f9993e30ab4",
+  "versionId": "2db2fa97-695a-4d62-8257-7aebb62ea4e6",
   "meta": {
-    "instanceId": "1e4bdd395bd9a43ad9c67815e4bae6c3a7b056eabe93685749ec3add43e2c23b"
+    "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
   },
-  "id": "2dkuU4ZmyvD6MtvJ",
+  "id": "aokzFlRCCI1AbgnW",
   "tags": []
 }
