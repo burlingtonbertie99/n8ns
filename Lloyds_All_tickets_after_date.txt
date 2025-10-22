@@ -1,0 +1,34 @@
+{{baseUrl}}/crm/v3/objects/tickets/search
+
+
+
+///////////////////////////////////////////////////////////////////////////
+{
+  "filterGroups": [
+    {
+      "filters": [
+        {
+          "propertyName": "associations.company",
+          "operator": "EQ",
+          "value": 62873106
+        },
+        {
+          "propertyName": "createdate",
+          "operator": "GTE",
+          "value": "2024-01-01T00:00:00Z"
+        }
+      ]
+    }
+  ],
+  "sorts": [
+    { "propertyName": "createdate", "direction": "ASCENDING" }
+  ],
+  "properties": [
+    "subject",
+    "content",
+    "createdate",
+    "hs_pipeline",
+    "hs_pipeline_stage"
+  ],
+  "limit": 100
+}
