@@ -1,0 +1,252 @@
+{
+  "name": "Permanent TSB",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "adc8e663-2986-4619-9257-04727e45062b",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -432,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tickets/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 3839964661\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-01-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        -16
+      ],
+      "id": "c7fec437-92db-4e4f-b5ab-40317a666d7f",
+      "name": "HTTP Request1",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tickets/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 3839964661\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        224
+      ],
+      "id": "d5b2d178-5ef0-4486-98d3-d0b43ccddd6a",
+      "name": "HTTP Request",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        16,
+        32
+      ],
+      "id": "c02d95aa-2f17-48b2-9d3b-6b8bffd1865f",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "options": {
+          "delimiter": ","
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        912,
+        32
+      ],
+      "id": "ea68c56f-9410-4ea5-9b88-5f91ffb255ad",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        688,
+        32
+      ],
+      "id": "921fbb6a-d86d-43bc-91ad-14b88e8aae08",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function node\n// Merges multiple JSON inputs and deduplicates by \"id\"\n\nlet merged = [];\n\n// Collect all results arrays from inputs\nfor (const item of items) {\n  if (item.json.results && Array.isArray(item.json.results)) {\n    merged.push(...item.json.results);\n  }\n}\n\n// Deduplicate by \"id\"\nconst seen = new Set();\nconst deduped = merged.filter(entry => {\n  if (seen.has(entry.id)) {\n    return false;\n  }\n  seen.add(entry.id);\n  return true;\n});\n\n// Return single combined output\nreturn [\n  {\n    json: {\n      total: deduped.length,\n      results: deduped\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        32
+      ],
+      "id": "9d4eeefa-905c-4fad-b39d-8c863f5ea0bd",
+      "name": "SuperMerge"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "uG0Xg9yEyITVTg5w",
+          "mode": "list"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        32
+      ],
+      "name": "Call SLA_Logic-workflow",
+      "id": "555762a4-6244-43e1-9c45-43fcd5dfe308"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "SuperMerge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SuperMerge": {
+      "main": [
+        [
+          {
+            "node": "Call My Sub-workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call My Sub-workflow": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "130055d6-3fd7-4cd5-a004-4814caca272a",
+  "meta": {
+    "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
+  },
+  "id": "3YX9XBjc5B4SMHYY",
+  "tags": []
+}
