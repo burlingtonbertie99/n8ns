@@ -1,5 +1,5 @@
 {
-  "name": "pTSB_gosub",
+  "name": "Permanent TSB",
   "nodes": [
     {
       "parameters": {
@@ -127,12 +127,11 @@
       "id": "9d4eeefa-905c-4fad-b39d-8c863f5ea0bd",
       "name": "SuperMerge"
     },
-    
-        {
+    {
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "Mi8yFAQ4cbqQJs6p",
+          "value": "uG0Xg9yEyITVTg5w",
           "mode": "list"
         },
         "workflowInputs": {
@@ -154,8 +153,6 @@
       "name": "Call SLA_Logic-workflow",
       "id": "555762a4-6244-43e1-9c45-43fcd5dfe308"
     }
-    
-    
   ],
   "pinData": {},
   "connections": {
