@@ -1,5 +1,5 @@
 {
-  "name": "Lloyds_gosub",
+  "name": "DeutscheBank_gosub",
   "nodes": [
     {
       "parameters": {
@@ -22,7 +22,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 94503797\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -50,7 +50,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 94503797\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
