@@ -1,0 +1,338 @@
+{
+  "name": "Barclays+Geneva",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "ddbb17d8-4387-474a-b31b-7a617086b756",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -272,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tickets/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },\n        {\n          \"propertyName\": \"closed_date\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-07-01T00:00:00Z\"},\n        {\n\n                 \"propertyName\": \"closed_date\",\n          \"operator\": \"LTE\",\n          \"value\": \"2025-09-30T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        128
+      ],
+      "id": "3db9bfcc-e3cd-4e3a-897d-538d8358e482",
+      "name": "HTTP Request1",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tickets/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },{\n         \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-07-01T00:00:00Z\"},\n        {\n\n                 \"propertyName\": \"createdate\",\n          \"operator\": \"LTE\",\n          \"value\": \"2025-09-30T00:00:00Z\"\n        }\n\n    \n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        368
+      ],
+      "id": "2dddcd90-7253-4420-bd1b-85af67d64c95",
+      "name": "HTTP Request",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        176,
+        176
+      ],
+      "id": "16f94b45-d3e7-4896-8a8b-0071cf698102",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "options": {
+          "delimiter": ","
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1072,
+        176
+      ],
+      "id": "80ea43ea-ce7a-4f5a-82e2-3bd6cc5c240d",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        848,
+        176
+      ],
+      "id": "27479e41-f940-4678-96ab-d743fec2c206",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function node\n// Merges multiple JSON inputs and deduplicates by \"id\"\n\nlet merged = [];\n\n// Collect all results arrays from inputs\nfor (const item of items) {\n  if (item.json.results && Array.isArray(item.json.results)) {\n    merged.push(...item.json.results);\n  }\n}\n\n// Deduplicate by \"id\"\nconst seen = new Set();\nconst deduped = merged.filter(entry => {\n  if (seen.has(entry.id)) {\n    return false;\n  }\n  seen.add(entry.id);\n  return true;\n});\n\n// Return single combined output\nreturn [\n  {\n    json: {\n      total: deduped.length,\n      results: deduped\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        176
+      ],
+      "id": "33ecf86e-68ec-4772-a8f0-6446daca20a8",
+      "name": "SuperMerge"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Mi8yFAQ4cbqQJs6p",
+          "mode": "list"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        176
+      ],
+      "name": "Call SLA_Logic-workflow",
+      "id": "98a1c264-2a3b-400b-abc9-618acfb7d548"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tickets/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 274648739\n        },\n        {\n          \"propertyName\": \"closed_date\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-07-01T00:00:00Z\"},\n        {\n\n                 \"propertyName\": \"closed_date\",\n          \"operator\": \"LTE\",\n          \"value\": \"2025-09-30T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -32,
+        576
+      ],
+      "id": "4847e987-03ef-41cb-a842-88d219218915",
+      "name": "HTTP Request2",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/tickets/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 274648739\n        },{\n         \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-07-01T00:00:00Z\"},\n        {\n\n                 \"propertyName\": \"createdate\",\n          \"operator\": \"LTE\",\n          \"value\": \"2025-09-30T00:00:00Z\"\n        }\n\n    \n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -32,
+        768
+      ],
+      "id": "68d312d9-a427-4a5e-8103-ac77ddebb79f",
+      "name": "HTTP Request3",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "5mZJoVAI8fTsYV0e",
+          "name": "HubSpot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "SuperMerge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SuperMerge": {
+      "main": [
+        [
+          {
+            "node": "Call SLA_Logic-workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call SLA_Logic-workflow": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6b23e7a0-ef3f-43bc-b1be-787c383e6528",
+  "meta": {
+    "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
+  },
+  "id": "7PdH8mVVaZYHD4rR",
+  "tags": []
+}
