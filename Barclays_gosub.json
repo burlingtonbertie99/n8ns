@@ -50,7 +50,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },\n        {\n          \"propertyName\": \"hs_pipeline_stage\",\n          \"operator\": \"NEQ\",\n          \"value\": 4\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 35186982052\n        },{\n         \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-07-01T00:00:00Z\"},\n        {\n\n                 \"propertyName\": \"createdate\",\n          \"operator\": \"LTE\",\n          \"value\": \"2025-09-30T00:00:00Z\"\n        }\n\n    \n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\", \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -243,7 +243,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "2facdf8f-84a6-4849-846f-ec4c812672ae",
+  "versionId": "cdc18238-b4de-4fd9-a8fc-18cc87fb7086",
   "meta": {
     "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
   },
