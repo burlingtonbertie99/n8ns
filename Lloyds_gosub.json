@@ -5,13 +5,13 @@
       "parameters": {
         "inputSource": "passthrough"
       },
-      "id": "75f6f6a9-1692-4c67-bb6a-276abfa15821",
+      "id": "99d8452f-8a77-44f3-a6e0-8022da353b3d",
       "typeVersion": 1.1,
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -320,
-        208
+        -368,
+        320
       ]
     },
     {
@@ -22,7 +22,7 @@
         "nodeCredentialType": "hubspotAppToken",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-06-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"associations.company\",\n          \"operator\": \"EQ\",\n          \"value\": 62873106\n        },\n        {\n          \"propertyName\": \"createdate\",\n          \"operator\": \"GTE\",\n          \"value\": \"2025-09-01T00:00:00Z\"\n        }\n      ]\n    }\n  ],\n  \"sorts\": [\n    { \"propertyName\": \"createdate\", \"direction\": \"ASCENDING\" }\n  ],\n  \"properties\": [\n    \"subject\",    \n    \"createdate\",    \n    \"closed_date\",\n    \"time_to_first_agent_reply\",\n    \"first_agent_reply_date\",\n    \"hs_time_to_close\",\n    \"hs_pipeline_stage\"\n  ],\n  \"limit\": 100\n}\n",
         "options": {
           "allowUnauthorizedCerts": true
         }
@@ -30,15 +30,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -96,
-        64
+        -144,
+        176
       ],
-      "id": "de25f454-36f1-48c1-bfeb-c14ca1385a51",
+      "id": "b3714e6c-ac19-46f4-b908-9770b75c48cb",
       "name": "HTTP Request1",
       "credentials": {
         "hubspotAppToken": {
-          "id": "5mZJoVAI8fTsYV0e",
-          "name": "HubSpot account"
+          "id": "2yehenPyLDtzjpO1",
+          "name": "HubSpot App Token account"
         }
       }
     },
@@ -58,15 +58,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -96,
-        304
+        -144,
+        416
       ],
-      "id": "15a5f991-61d6-4f0c-9ab0-1b561037726c",
+      "id": "b295ad75-3875-4583-8580-3fb94ceaa8b5",
       "name": "HTTP Request",
       "credentials": {
         "hubspotAppToken": {
-          "id": "5mZJoVAI8fTsYV0e",
-          "name": "HubSpot account"
+          "id": "2yehenPyLDtzjpO1",
+          "name": "HubSpot App Token account"
         }
       }
     },
@@ -79,25 +79,26 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        128,
-        112
+        80,
+        224
       ],
-      "id": "081ffdee-0683-40ef-9e22-63bf0a7c68c7",
+      "id": "96517012-a25e-418f-9b80-c980c70993e8",
       "name": "Merge"
     },
     {
       "parameters": {
         "options": {
-          "delimiter": ","
+          "delimiter": ",",
+          "fileName": "Governance001.csv"
         }
       },
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        1024,
-        112
+        976,
+        224
       ],
-      "id": "29bb8dfd-d6c8-4402-bbd5-c9791a32e763",
+      "id": "f388dc2d-781b-4a98-ad89-0ab95979f918",
       "name": "Convert to File"
     },
     {
@@ -108,10 +109,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        800,
-        112
+        752,
+        224
       ],
-      "id": "1ad58b2c-1a82-4278-9e85-36fe2b7d5b27",
+      "id": "94611939-0bbe-4f95-86e6-02c4260e51f1",
       "name": "Split Out"
     },
     {
@@ -121,19 +122,20 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        352,
-        112
+        304,
+        224
       ],
-      "id": "42479544-df18-4ef3-b07b-724fe1457d77",
+      "id": "2a56c290-eeb5-4740-8dc1-1924a63b8e20",
       "name": "SuperMerge"
     },
     {
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "Mi8yFAQ4cbqQJs6p",
+          "value": "xgjVwjxXMtxwgGxT",
           "mode": "list",
-          "cachedResultName": "SLA_Logic-workflow"
+          "cachedResultUrl": "/workflow/xgjVwjxXMtxwgGxT",
+          "cachedResultName": "SLA_Logic-workflowLloydsetc"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -148,11 +150,24 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        576,
-        112
+        528,
+        224
       ],
       "name": "Call SLA_Logic-workflow",
-      "id": "3c2a8de2-7e21-4dbe-bd20-0ecd2273c5b5"
+      "id": "c3259e39-2427-4a3a-bd56-fbcce5b7d651"
+    },
+    {
+      "parameters": {
+        "jsCode": "// === CONFIG ===\n// Keys = original field names; Values = new desired names\nconst map = {\n \"json\":\" \" ,\n  \"subject\": \"Title\",\n  \"product_category\": \"Product Category\",\n  \"createdAt\": \"Created\",\n  \"closedAt\": \"Closed\",\n  \"business_hours_reply\": \"Reply Time\",\n  \"timeToFirstReply\":\"TTFR\",\n  \"timeToClose\": \"TTC\",\n  \"firstResponseMet\":\"SLA met?\"\n};\n\n// If true => only keep keys that appear in `map` (everywhere).\n// If false => keep unmapped keys with their original names.\nconst dropUnmapped = false;\n\n// === RECURSIVE RENAME FUNCTION ===\nfunction renameRecursive(value) {\n  // If null or primitive, return as-is\n  if (value === null) return null;\n  if (typeof value !== 'object') return value;\n\n  // If it's an array, map over elements recursively\n  if (Array.isArray(value)) {\n    return value.map(elem => renameRecursive(elem));\n  }\n\n  // It's an object: process keys\n  const out = {};\n  for (const [key, val] of Object.entries(value)) {\n    // Determine new key name\n    const mappedKey = map.hasOwnProperty(key) ? map[key] : null;\n\n    if (mappedKey) {\n      // Use mapped name\n      out[mappedKey] = renameRecursive(val);\n    } else if (!dropUnmapped) {\n      // Keep original name if not dropping\n      out[key] = renameRecursive(val);\n    }\n    // if dropUnmapped === true and no mapping, we skip the key\n  }\n  return out;\n}\n\n// === n8n Function node standard return ===\nreturn items.map(item => {\n  // Guard: if item.json missing, just return it\n  if (!item.hasOwnProperty('json')) return item;\n\n  const renamed = renameRecursive(item.json);\n  // Keep other top-level fields like binary exactly as they were\n  const result = { json: renamed };\n  if (item.binary) {\n    result.binary = item.binary;\n  }\n  return result;\n});\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        464
+      ],
+      "id": "4aa63fc7-f273-44ad-b46a-eb90ba850db7",
+      "name": "Map Headers"
     }
   ],
   "pinData": {},
@@ -210,7 +225,7 @@
       "main": [
         [
           {
-            "node": "Convert to File",
+            "node": "Map Headers",
             "type": "main",
             "index": 0
           }
@@ -238,16 +253,32 @@
           }
         ]
       ]
+    },
+    "Convert to File": {
+      "main": [
+        []
+      ]
+    },
+    "Map Headers": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "feb62bbd-f4bd-431d-a853-50641cdc9f9b",
+  "versionId": "23f72d3a-9747-4e91-bb2f-fb8cfd164f0d",
   "meta": {
-    "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
+    "instanceId": "b61ee99fb0718baffc2f2d22c2ad951b63bbfee6eb0df9fbb48d4fedff564a54"
   },
-  "id": "F6RRNYdHqG76pfAU",
+  "id": "yrA5ovgZhtaMIlxY",
   "tags": []
 }

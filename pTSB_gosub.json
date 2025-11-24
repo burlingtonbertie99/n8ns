@@ -5,13 +5,13 @@
       "parameters": {
         "inputSource": "passthrough"
       },
-      "id": "2f53fec3-0a0b-40bd-b41d-7e811c06eddc",
+      "id": "679f6136-34d1-4acc-9c60-262da9b3a28a",
       "typeVersion": 1.1,
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -496,
-        224
+        -320,
+        192
       ]
     },
     {
@@ -30,15 +30,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -272,
-        80
+        -96,
+        48
       ],
-      "id": "de592527-cf2c-4b41-8a23-f86efd67b706",
+      "id": "3fdd1ca5-2119-4719-91a1-c8654f9cc6e6",
       "name": "HTTP Request1",
       "credentials": {
         "hubspotAppToken": {
-          "id": "5mZJoVAI8fTsYV0e",
-          "name": "HubSpot account"
+          "id": "2yehenPyLDtzjpO1",
+          "name": "HubSpot App Token account"
         }
       }
     },
@@ -58,15 +58,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -272,
-        320
+        -96,
+        288
       ],
-      "id": "b47ead65-f36e-4b3f-af4c-3fdb92d9acdb",
+      "id": "7b0be4cc-91fb-44fa-b72a-e3af7a87e70d",
       "name": "HTTP Request",
       "credentials": {
         "hubspotAppToken": {
-          "id": "5mZJoVAI8fTsYV0e",
-          "name": "HubSpot account"
+          "id": "2yehenPyLDtzjpO1",
+          "name": "HubSpot App Token account"
         }
       }
     },
@@ -79,25 +79,27 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -48,
-        128
+        128,
+        96
       ],
-      "id": "fa03f8dd-ac86-4fa8-80c8-e2813cea60f0",
+      "id": "a43e6b39-b3f2-4b61-8cc0-afd38d1a76d7",
       "name": "Merge"
     },
     {
       "parameters": {
         "options": {
-          "delimiter": ","
+          "delimiter": ",",
+          "fileName": "Governance002.csv",
+          "headerRow": true
         }
       },
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        848,
-        128
+        1024,
+        96
       ],
-      "id": "9d91e34c-a164-4ab6-afac-c595b0d44450",
+      "id": "f0dcab4c-3378-457a-b71a-cee653be5892",
       "name": "Convert to File"
     },
     {
@@ -108,10 +110,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        624,
-        128
+        800,
+        96
       ],
-      "id": "f1f4fce7-df42-49cf-82e5-1c087fe1769e",
+      "id": "45093529-87fd-47da-bd7d-06ed45bd836e",
       "name": "Split Out"
     },
     {
@@ -121,17 +123,17 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        176,
-        128
+        352,
+        96
       ],
-      "id": "27f3c4e2-31fc-4593-80ad-f881e7402b5e",
+      "id": "d9e433ef-7f04-45fc-b17e-2a688d05d2cc",
       "name": "SuperMerge"
     },
     {
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "Mi8yFAQ4cbqQJs6p",
+          "value": "xgjVwjxXMtxwgGxT",
           "mode": "list"
         },
         "workflowInputs": {
@@ -147,11 +149,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        400,
-        128
+        576,
+        96
       ],
       "name": "Call SLA_Logic-workflow",
-      "id": "745bd04a-eb23-42eb-9fa2-ab9401c6e026"
+      "id": "bde1321a-843a-4d3d-b3db-2413ffe4cd86"
     }
   ],
   "pinData": {},
@@ -243,10 +245,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c48e823d-5a99-4be9-9cc2-4cc17042cbf3",
+  "versionId": "aeb7aed2-b5f7-473b-ac0d-c30b6688c64f",
   "meta": {
-    "instanceId": "9f907c92272889a5dc0ef92a24ccfcea3e297e5f5b082cb541436cfc36d76e19"
+    "instanceId": "b61ee99fb0718baffc2f2d22c2ad951b63bbfee6eb0df9fbb48d4fedff564a54"
   },
-  "id": "uNC8GaA2DXzpTyQw",
+  "id": "xJI0SroFVAVqPdTX",
   "tags": []
 }
