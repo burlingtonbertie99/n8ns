@@ -1,4 +1,6 @@
 *.png
 *.svg
 
+node_modules\*.*
+
 node_modules/*.*
