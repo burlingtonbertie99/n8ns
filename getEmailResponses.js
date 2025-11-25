@@ -34,9 +34,10 @@ dotenv.config();
 // TICKET_FETCH_LIMIT=100                                 # optional, default limit when listing (max 100)
 // LOG_LEVEL=info
 
-const HUBSPOT_TOKEN = process.env.HUBSPOT_TOKEN;
+const HUBSPOT_TOKEN = process.env.HUBSPOT_TOKEN.replace(/(\r\n|\n|\r)/g, '');
 const FIRST_RESPONSE_PROPERTY = process.env.FIRST_RESPONSE_PROPERTY || "first_agent_reply_timestamp";
-const TICKET_IDS_FILE = process.env.TICKET_IDS_FILE || null;
+//const TICKET_IDS_FILE = process.env.TICKET_IDS_FILE || null;
+const TICKET_IDS_FILE = "C:\\Users\\chris\\WebstormProjects\\n8ns\\ticket_ids.txt" || null;
 const TICKET_FETCH_LIMIT = parseInt(process.env.TICKET_FETCH_LIMIT || "100", 10);
 const LOG_LEVEL = process.env.LOG_LEVEL || "info";
 
@@ -105,7 +106,7 @@ async function requestWithRetry(config, opts = {}) {
 
     return pRetry(operation, {
         onFailedAttempt,
-        retries: opts.retries ?? 6,
+        retries: opts.retries ?? 1,
         factor: 2,
         minTimeout: opts.minTimeout ?? 1000,
         maxTimeout: opts.maxTimeout ?? 30_000,
@@ -392,6 +393,7 @@ async function main() {
     try {
         let ticketIds = [];
 
+
         if (TICKET_IDS_FILE && fs.existsSync(TICKET_IDS_FILE)) {
             const raw = fs.readFileSync(TICKET_IDS_FILE, "utf8");
             ticketIds = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
@@ -402,6 +404,9 @@ async function main() {
             ticketIds = tickets.map(t => t.id);
             log("info", `Fetched ${ticketIds.length} tickets from HubSpot.`);
         }
+
+
+
 
         // process sequentially (safe); can be parallelized with concurrency control if desired
         for (const id of ticketIds) {
