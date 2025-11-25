@@ -133,7 +133,9 @@
         "workflowId": {
           "__rl": true,
           "value": "prteqIL5qSSn4FSj",
-          "mode": "list"
+          "mode": "list",
+          "cachedResultUrl": "/workflow/prteqIL5qSSn4FSj",
+          "cachedResultName": "SLA_Logic-workflow_CAL03"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -356,7 +358,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "8ffab888-3cda-4fdb-8a5a-ed096e2c1f73",
+  "versionId": "05b25fd2-0b99-4d68-b37b-9efab0cf2f40",
   "meta": {
     "instanceId": "b61ee99fb0718baffc2f2d22c2ad951b63bbfee6eb0df9fbb48d4fedff564a54"
   },
